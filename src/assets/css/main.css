@@ -1,0 +1,242 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app,
+.wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'PingFang SC', "Helvetica Neue", Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
+}
+
+a {
+  text-decoration: none
+}
+
+.content-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 70px;
+  bottom: 0;
+  padding-bottom: 40px;
+  -webkit-transition: left .3s ease-in-out;
+  transition: left .3s ease-in-out;
+  background: #f0f0f0;
+}
+
+.content {
+  width: auto;
+  height: 100%;
+  padding: 10px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+.content-collapse {
+  left: 65px;
+}
+
+.container {
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.crumbs {
+  margin: 10px 0;
+}
+
+.el-table th {
+  background-color: #f5f7fa !important;
+}
+
+.pagination {
+  margin: 20px 0;
+  text-align: right;
+}
+
+.el-button + .el-tooltip {
+  margin-left: 10px;
+}
+
+.el-table tr:hover {
+  background: #f6faff;
+}
+
+.mgb20 {
+  margin-bottom: 20px;
+}
+
+.noHeader .el-dialog__header {
+  display: none;
+}
+
+/* dialog样式 */
+.el-dialog__header {
+  border-bottom: 1px solid #ddd;
+}
+
+.el-dialog__body {
+  padding: 20px !important;
+}
+
+.el-dialog__footer {
+  border-top: 1px solid #ddd;
+}
+
+.dialog-height {
+  max-height: 400px;
+  overflow-y: auto
+}
+
+.el-message-box__message {
+  max-height: 200px;
+  overflow-y: auto
+}
+
+.el-message-box__message::-webkit-scrollbar, .el-textarea__inner::-webkit-scrollbar {
+  width: 5px;
+  height: 3px;
+}
+
+.el-message-box__message::-webkit-scrollbar-thumb, .el-textarea__inner::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #87ceeb;
+}
+
+.el-message-box__message::-webkit-scrollbar-track, .el-textarea__inner::-webkit-scrollbar-track {
+  display: none;
+}
+
+/* input, select */
+.handle-select {
+  width: 180px;
+}
+
+.handle-input {
+  width: 180px !important;
+  display: inline-block;
+}
+
+/* margin-right */
+.mr5 {
+  margin-right: 5px;
+}
+
+/* 滚动条样式 */
+/*滚动条整体样式*/
+.scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
+}
+/*滚动条里面小方块*/
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #87ceeb;
+}
+/*滚动条里面轨道*/
+.scrollbar::-webkit-scrollbar-track {
+  display: none;
+}
+
+.my-handle-class {
+  position: absolute;
+  background-color: #6d6eff;
+  border-radius: 1px;
+  -webkit-transition: all 300ms linear;
+  -ms-transition: all 300ms linear;
+  transition: all 300ms linear;
+}
+
+.my-handle-class-tl {
+  height: 12px !important;
+  width: 12px !important;
+  background-color: transparent;
+  border-top: 3px solid #6d6eff;
+  border-left: 3px solid #6d6eff;
+  top: -6px !important;
+  left: -6px !important;
+  cursor: nw-resize;
+}
+
+.my-handle-class-tm {
+  height: 3px !important;
+  width: 12px !important;
+  top: -7px !important;
+  margin-left: -7px;
+  cursor: n-resize;
+}
+
+.my-handle-class-tr {
+  height: 12px !important;
+  width: 12px !important;
+  background-color: transparent;
+  border-top: 3px solid #6d6eff;
+  border-right: 3px solid #6d6eff;
+  top: -6px !important;
+  cursor: ne-resize;
+}
+
+.my-handle-class-ml {
+  height: 12px !important;
+  width: 3px !important;
+  margin-top: -7px;
+  left: -7px !important;
+  cursor: w-resize;
+}
+
+.my-handle-class-mr {
+  height: 12px !important;
+  width: 3px !important;
+  margin-top: -7px;
+  right: -7px !important;
+  cursor: e-resize;
+}
+
+.my-handle-class-bl {
+  height: 12px !important;
+  width: 12px !important;
+  background-color: transparent;
+  border-left: 3px solid #6d6eff;
+  border-bottom: 3px solid #6d6eff;
+  bottom: -6px !important;
+  cursor: sw-resize;
+}
+
+.my-handle-class-bm {
+  height: 3px !important;
+  width: 12px !important;
+  bottom: -7px !important;
+  margin-left: -7px;
+  cursor: s-resize;
+}
+
+.my-handle-class-br {
+  height: 12px !important;
+  width: 12px !important;
+  background-color: transparent;
+  border-right: 3px solid #6d6eff;
+  border-bottom: 3px solid #6d6eff;
+  bottom: -6px !important;
+  cursor: se-resize;
+}
+
+.my-handle-class-tl:hover,
+.my-handle-class-tm:hover,
+.my-handle-class-tr:hover,
+.my-handle-class-ml:hover,
+.my-handle-class-mr:hover,
+.my-handle-class-bl:hover,
+.my-handle-class-bm:hover,
+.my-handle-class-br:hover {
+  transform: scale(1.1);
+}
