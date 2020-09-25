@@ -12,14 +12,6 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '*',
-      component: Page404,
-      meta: {
-        requireAuth: false,
-        title: '404'
-      }
-    },
-    {
       path: '/',
       redirect: '/index',
       meta: {
@@ -41,6 +33,14 @@ export default new Router({
       meta: {
         requireAuth: true,
         title: '激活'
+      }
+    },
+    {
+      path: '*',
+      component: Page404,
+      meta: {
+        requireAuth: false,
+        title: '404'
       }
     },
     {

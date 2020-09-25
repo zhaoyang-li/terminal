@@ -468,7 +468,7 @@
 
 <script>
   import {unitLogins, readlLogin, getDynamicCode} from "../../api/user"
-  import {getStore} from "../../utils/mUtils"
+  import {getStore, setStore} from "../../utils/mUtils"
   import DateTime from "../../components/dateTime"
   export default {
     name: "index",
@@ -556,6 +556,11 @@
           readlLogin(this.ZJHM, res => {
             this.loading = false
             if (res.response !== 'error') {
+              window.localStorage.clear()
+              setStore('token', res.token)
+              setStore('GRMC', res.userInfo.grxm)
+              setStore('GRZH', res.userInfo.grzh)
+              setStore('ZJHM', res.userInfo.zjhm)
               this.$message.success('登录成功！请操作完成后退出登录，以免信息泄露！')
             } else {
               this.$message.error(res.message)
@@ -576,6 +581,10 @@
             unitLogins(this.param, res => {
               this.loading = false
               if (res.response !== 'error') {
+                window.localStorage.clear()
+                setStore('token', res.token)
+                setStore('DWZH', res.unitInfo.dwzh)
+                setStore('DWMC', res.unitInfo.dwmc)
                 this.$message.success('登录成功！请操作完成后退出登录，以免信息泄露！')
               } else {
                 this.$message.error(res.message)

@@ -1,11 +1,27 @@
-import {baseURL} from "../config/config"
-import {judgeObj, handingError} from '../utils/mUtils'
+import {baseURL, channel} from "../config/config"
+import {judgeObj, handingError, getStore} from '../utils/mUtils'
 
 const baseOptions = (params, method = 'GET') => {
-  method = method.toLowerCase()
   return new Promise((resolve) => {
-    global.axiosNew[method](baseURL + params.url, params.data).then(res => {
-      resolve(res.data)
+    const req = {
+      path: params.url,
+      method: method,
+      token: getStore('token') || '',
+      requestBody: params.data ? JSON.stringify(params.data) : '',
+      remoteAddr: '',
+      channel: channel,
+      contentType: 'application/json'
+    }
+    global.axiosNew['post'](baseURL, req).then(res => {
+      if (res.data.code === '0') {
+        if (typeof res.data.data === 'object') {
+          resolve(res.data.data)
+        } else {
+          resolve(JSON.parse(res.data.data))
+        }
+      } else {
+        resolve({Res: {Code: res.data.code, Msg: res.data.message}})
+      }
     }).catch(() => {
       resolve({Res: {Code: '10000', Msg: '网络错误！'}})
     })
@@ -14,7 +30,7 @@ const baseOptions = (params, method = 'GET') => {
 
 const get = (url, data = '') => {
   const params = {url, data}
-  return baseOptions(params)
+  return baseOptions(params, 'GET')
 }
 
 const post = (url, data, contentType) => {

@@ -1,12 +1,28 @@
-import {commonPost} from "../utils/axiosUtils"
+import {commonPost, commonGet} from "../utils/axiosUtils"
+import {dealData} from "../utils/mUtils"
 
 /**
  * 修改密码
  */
 export const modifyPassword = (data, callback) => {
-  commonPost('account/resetPersonPwd', data, callback)
+  commonPost('/account/resetPersonPwd', data, callback)
 }
 
+/**
+ * 获取验证码
+ */
 export const getDynamicCode = (data, callback) => {
-  commonPost('account/common/sendVerificationNumber/dynamicPassword', data, callback)
+  commonPost('/account/common/sendVerificationNumber/dynamicPassword', data, callback)
 }
+
+/**
+ * 获取网点信息
+ * @param data
+ * @param callback
+ */
+export const getNetworkList = (data, callback) => {
+  let url = '/account/outlets/network'
+  url += data ? dealData(data) : ''
+  commonGet(url, '', callback)
+}
+

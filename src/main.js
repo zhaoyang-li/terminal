@@ -13,20 +13,13 @@ Vue.config.productionTip = false
 Vue.use(ElementUI, { size: 'medium' })
 Vue.use(Vuex)
 
-global.init = 1
+getJdk()
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
     const token = getStore('token')
     if (token) {
-      if (global.init) {
-        global.init = 0
-        getJdk().then(() => {
-          next()
-        })
-      } else {
-        next()
-      }
+      next()
     } else {
       window.localStorage.clear()
       next({ path: '/index' })

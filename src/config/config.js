@@ -3,10 +3,10 @@
  */
 const URL = {
   development: {
-    baseUrl: 'http://172.16.10.104:81/housingfund-social/'
+    baseUrl: 'https://weapptest.bjzfgjj.gov.cn/outer/exchange'
   },
   test: {
-    baseUrl: 'https://api.dowell.cn'
+    baseUrl: 'https://weapptest.bjzfgjj.gov.cn/outer/exchange'
   },
   rc: {
     baseUrl: 'https://api.dowell.cn'
@@ -16,9 +16,12 @@ const URL = {
   }
 }
 
+const channel = '08'
+
 const nodeEnv = process.env.NODE_ENV || 'development'
 const baseURL = URL[nodeEnv].baseUrl
 
 export {
-  baseURL
+  baseURL,
+  channel
 }
