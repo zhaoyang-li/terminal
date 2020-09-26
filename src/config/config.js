@@ -3,16 +3,16 @@
  */
 const URL = {
   development: {
-    baseUrl: 'https://weapptest.bjzfgjj.gov.cn/outer/exchange'
+    baseUrl: 'https://apitest.bjzfgjj.gov.cn/outer/exchange'
   },
   test: {
-    baseUrl: 'https://weapptest.bjzfgjj.gov.cn/outer/exchange'
+    baseUrl: 'https://apitest.bjzfgjj.gov.cn/outer/exchange'
   },
   rc: {
-    baseUrl: 'https://api.dowell.cn'
+    baseUrl: 'https://apitest.bjzfgjj.gov.cn/outer/exchange'
   },
   production: {
-    baseUrl: 'https://api.dowell.cn'
+    baseUrl: 'https://api.bjzfgjj.gov.cn/outer/exchange'
   }
 }
 
