@@ -45,10 +45,14 @@ a {
 }
 
 .container {
+  margin: 0 auto;
+  width: 90%;
   padding: 20px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
+  max-height: 480px;
+  overflow-y: auto;
 }
 
 .crumbs {

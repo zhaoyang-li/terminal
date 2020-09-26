@@ -16,7 +16,7 @@ const URL = {
   }
 }
 
-const channel = '08'
+const channel = '05'
 
 const nodeEnv = process.env.NODE_ENV || 'development'
 const baseURL = URL[nodeEnv].baseUrl

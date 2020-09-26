@@ -80,7 +80,7 @@
             <div class="card-title">服务网点</div>
           </div>
         </div>
-        <div @click="goPage('houses')" class="model-card" style="background-color: rgba(92, 75, 187, 0.9);">
+        <div @click="goPage('build')" class="model-card" style="background-color: rgba(92, 75, 187, 0.9);">
           <div class="card-content">
             <i class="el-icon-office-building"></i>
             <div class="card-title">合作楼盘</div>
@@ -134,7 +134,7 @@
       </el-form>
       <el-form v-if="readLoginBox" label-width="0px" class="ms-content">
         <el-form-item >
-          <el-input v-model="ZJHM" placeholder="请将身份证放在读取区域" size="medium" disabled>
+          <el-input v-model="ZJHM" placeholder="请将身份证放在读取区域" size="medium">
             <el-button slot="prepend" icon="el-icon-postcard"></el-button>
             <el-button slot="append" @click="getIdCard">读取</el-button>
           </el-input>

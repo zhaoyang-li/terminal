@@ -5,6 +5,7 @@ import Index from '@/views/login/index'
 import Activate from '@/views/login/activate'
 import Repayment from '@/views/system/repayment'
 import Network from '@/views/system/network'
+import Build from '@/views/system/build'
 
 Vue.use(Router)
 
@@ -57,6 +58,14 @@ export default new Router({
       meta: {
         requireAuth: false,
         title: '服务网点'
+      }
+    },
+    {
+      path: '/build',
+      component: Build,
+      meta: {
+        requireAuth: false,
+        title: '合作楼盘'
       }
     }
   ]

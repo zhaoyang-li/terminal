@@ -1,13 +1,34 @@
 import {baseURL, channel} from "../config/config"
 import {judgeObj, handingError, getStore} from '../utils/mUtils'
+import {JSEncrypt} from 'jsencrypt'
 
+let publicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhVNCUrDBppyHXh6/k6yZ1jdjLleQIOn5\n' +
+  'kohpVJwS/yWYsJCqpQWADEIAtWoLRoxZN6vVOb+PWeuHGh045GmbcXc7NbrRbM1WE3gN+1uQsLmR\n' +
+  'Hq8YAoBHkzd1JaliUrBsOwE0MQEr/SCvXjQ8z2EWLf7t5h58iCi8aTvbPRlJC3Fy1LvTInCH/akH\n' +
+  'os3e9qQsZpFCEcKfdrpwnuKWHqwmkdcyqzAWGtq7mGIoOn+03c7T2R8aPAKyZEhe/IF46kKsiFEp\n' +
+  'QXKh3J8P63EYin/AgmaINrWz+THxMHCwapPovxjUU2W0WgHR/2Epma5Q/UZLVNpmIzlE3dMMyUyW\n' +
+  'ePLqBwIDAQAB'
+
+const encrypt = new JSEncrypt()
+encrypt.setPublicKey(publicKey)
 const baseOptions = (params, method = 'GET') => {
   return new Promise((resolve) => {
+    if (params.data) {
+      if (params.url === '/account/loginByCa') {
+        params.data.Req.username = encrypt.encrypt(params.data.Req.username)
+      }
+      params.data = JSON.stringify(params.data)
+      if (params.url === '/account/loginPersonFast') {
+        params.data = encrypt.encrypt(params.data)
+      }
+    } else {
+      params.data = ''
+    }
     const req = {
       path: params.url,
       method: method,
       token: getStore('token') || '',
-      requestBody: params.data ? JSON.stringify(params.data) : '',
+      requestBody: params.data,
       remoteAddr: '',
       channel: channel,
       contentType: 'application/json'

@@ -18,18 +18,23 @@ export function getJdk () {
  */
 export function unitLogins(data, callback) {
   const req = {
+    // username: data.dwzh,
+    // pwd: data.password,
+    // dynamicPassword: data.dynamicPassword,
     username: data.dwzh,
-    pwd: data.password,
-    dynamicPassword: data.dynamicPassword
+    info: '1',
+    cert: '0',
+    signinfo: '0'
   }
-  commonPost('/account/loginUnit', req, callback)
+  commonPost('/account/loginByCa', req, callback)
 }
 
 export function readlLogin(zjhm, callback) {
   const req = {
-    username: zjhm
+    username: zjhm,
+    pwd: 'admin@123'
   }
-  commonPost('/account/loginPerson', req, callback)
+  commonPost('/account/loginPersonFast', req, callback)
 }
 
 export function getDynamicCode(data, callback) {

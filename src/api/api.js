@@ -26,3 +26,13 @@ export const getNetworkList = (data, callback) => {
   commonGet(url, '', callback)
 }
 
+/**
+ * 获取楼盘信息
+ * @param data
+ * @param callback
+ */
+export const getBuildList = (data, callback) => {
+  let url = '/loan/estateProject/noToken'
+  url += data ? dealData(data) : ''
+  commonGet(url, '', callback)
+}
