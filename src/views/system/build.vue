@@ -41,20 +41,23 @@
     </div>
     <div class="login-footer">
       <IconText icon="el-icon-s-home" text="返回首页" @click="goPage('/index')"></IconText>
-      <IconText icon="el-icon-back" text="返回上一级" @click="goPage(-1)"></IconText>
+      <IconText icon="fa fa-reply" text="返回上一级" @click="goPage(-1)"></IconText>
     </div>
+    <CountDown v-if="countDown" :text="countText"></CountDown>
   </div>
 </template>
 
 <script>
   import DateTime from "../../components/dateTime"
   import IconText from "../../components/iconText"
+  import CountDown from "../../components/countDown"
+  import bus from "../../utils/bus"
   import {getNetworkList, getBuildList} from "../../api/api"
 
   export default {
     name: "build",
     components: {
-      DateTime, IconText
+      DateTime, IconText, CountDown
     },
     data() {
       return {
@@ -67,14 +70,25 @@
         pageTotal: 0,
         tableData: [],
         networkList: [{
-          id: undefined,
+          id: '',
           MingCheng: '所有'
-        }]
+        }],
+        countDown: false,
+        countText: ''
       }
     },
     created() {
+      bus.$on('countDown', data => {
+        if (data > 0) {
+          this.countDown = true
+          this.countText = data + '秒后回到首页'
+        }
+      })
+      bus.$on('closeCountDown', () => {
+        this.countDown = false
+      })
       getNetworkList({pageNo: 1, pageSize: 100}, res => {
-        const all = [{id: undefined, MingCheng: '所有'}]
+        const all = [{id: '', MingCheng: '所有'}]
         this.networkList = all.concat(res.results)
       })
       this.getData()

@@ -121,5 +121,6 @@ export {
   commonGet,
   commonPost,
   commonPut,
-  commonDelete
+  commonDelete,
+  get
 }

@@ -172,7 +172,7 @@
     </el-row>
     <div class="login-footer">
       <IconText icon="el-icon-s-home" text="返回首页" @click="goPage('/index')"></IconText>
-      <IconText icon="el-icon-back" text="返回上一级" @click="goPage(-1)"></IconText>
+      <IconText icon="fa fa-reply" text="返回上一级" @click="goPage(-1)"></IconText>
     </div>
     <el-dialog title="等额本金还款明细" :visible.sync="detailVisible">
       <div style="max-height: 400px; overflow-y: auto;" class="scrollbar">
@@ -186,18 +186,21 @@
         <el-button @click="detailVisible = false">关闭</el-button>
       </span>
     </el-dialog>
+    <CountDown v-if="countDown" :text="countText"></CountDown>
   </div>
 </template>
 
 <script>
   import DateTime from "../../components/dateTime"
   import IconText from "../../components/iconText"
+  import CountDown from "../../components/countDown"
+  import bus from "../../utils/bus"
   import {adder} from "../../utils/mUtils"
 
   export default {
     name: "repayment",
     components: {
-      DateTime, IconText
+      DateTime, IconText, CountDown
     },
     data() {
       return {
@@ -232,10 +235,21 @@
           BXYJHK: '',
           BXHKZE: '',
           BXZFLXE: ''
-        }
+        },
+        countDown: false,
+        countText: ''
       }
     },
     created() {
+      bus.$on('countDown', data => {
+        if (data > 0) {
+          this.countDown = true
+          this.countText = data + '秒后回到首页'
+        }
+      })
+      bus.$on('closeCountDown', () => {
+        this.countDown = false
+      })
       for (let i = 1; i <= 30; i++) {
         this.yearList.push(
           {

@@ -6,17 +6,11 @@
         <DateTime></DateTime>
       </div>
     </div>
-    <div style="max-height: 530px; overflow-y: auto;" class="scrollbar">
-      <div style="margin: 0 auto; padding: 10px; background-color: rgba(255, 255, 255, 1); width: 90%; border-radius: 5px;">
-        <el-table :data="networkList" stripe style="width: 99%; margin: 0 auto;">
-          <el-table-column prop="MingCheng" label="网点" width="240" align="center"></el-table-column>
-          <el-table-column prop="LXDH" label="联系方式" width="210" align="center"></el-table-column>
-          <el-table-column :formatter="formatWorkTime" label="工作时间" align="center"></el-table-column>
-          <el-table-column prop="XXDZ" label="地址" align="center"></el-table-column>
-        </el-table>
-      </div>
+    <div class="container scrollbar">
+      <div>个人信息</div>
     </div>
     <div class="login-footer">
+      <IconText icon="fa fa-sign-out" text="退出" @click="signOut"></IconText>
       <IconText icon="el-icon-s-home" text="返回首页" @click="goPage('/index')"></IconText>
       <IconText icon="fa fa-reply" text="返回上一级" @click="goPage(-1)"></IconText>
     </div>
@@ -29,16 +23,28 @@
   import IconText from "../../components/iconText"
   import CountDown from "../../components/countDown"
   import bus from "../../utils/bus"
-  import {getNetworkList} from "../../api/api"
+  import {getBuildList, getUserInfo} from "../../api/api"
+  import {getStore} from "../../utils/mUtils"
 
   export default {
-    name: "network",
+    name: "personInform",
     components: {
       DateTime, IconText, CountDown
     },
     data() {
       return {
-        networkList: [],
+        loading: false,
+        searchForm: {
+          YWWD: undefined,
+          pageNo: 1,
+          pageSize: 6
+        },
+        pageTotal: 0,
+        tableData: [],
+        networkList: [{
+          id: undefined,
+          MingCheng: '所有'
+        }],
         countDown: false,
         countText: ''
       }
@@ -53,7 +59,13 @@
       bus.$on('closeCountDown', () => {
         this.countDown = false
       })
-      this.getData()
+      getUserInfo(getStore('GRZH'), res => {
+        if (res.response !== 'error') {
+          console.log(res)
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     methods: {
       goPage(url) {
@@ -63,13 +75,29 @@
           this.$router.push(url)
         }
       },
+      signOut() {
+        window.localStorage.clear()
+        this.$router.push('/index')
+      },
       getData() {
-        getNetworkList({pageNo: 1, pageSize: 100}, res => {
-          this.networkList = res.results
+        this.loading = true
+        getBuildList({SFQY: '1', YWWD: this.searchForm.YWWD, pageNo: this.searchForm.pageNo, pageSize: this.searchForm.pageSize}, res => {
+          this.loading = false
+          if (res.response !== 'error') {
+            this.tableData = res.results
+            this.pageTotal = res.totalCount
+          } else {
+            this.$message.error(res.message)
+          }
         })
       },
-      formatWorkTime(row) {
-        return JSON.parse(row.BLSJ).totalTime
+      changeNetwork () {
+        this.$set(this.searchForm, 'pageNo', 1)
+        this.getData()
+      },
+      handlePageChange (val) {
+        this.$set(this.searchForm, 'pageNo', val)
+        this.getData()
       }
     }
   }

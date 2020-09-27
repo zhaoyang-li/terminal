@@ -1,4 +1,7 @@
 import qs from 'qs'
+import {baseURL, channel} from "../config/config"
+import {getDictionary, getNewExtractReason} from "../api/api"
+
 /**
  * 存储localStorage
  */
@@ -252,4 +255,105 @@ export function adder (...args) {
     }
   })
   return Math.round(sum * 100) / 100
+}
+
+export function getFileInfo(id) {
+  const token = getStore('token')
+  const path = '/file/' + id + '?H-TOKEN=' + token + '&timestamp=' + new Date().getTime()
+  return baseURL + '-stream?path=' + path +
+    '&method=GET&token=&channel=' + channel + '&requestBody=&remoteAddr=&contentType=application/json'
+}
+
+export function updateDic() {
+  if (getStore('token')) {
+    getDictionary(res => {
+      if (res.response !== 'error') {
+        for (let key in dicType) {
+          if (key !== '新提取原因') {
+            setStore(dicType[key], res[dicType[key]])
+          }
+        }
+      }
+    })
+    getNewExtractReason(res => {
+      if (res.response !== 'error') {
+        setStore(dicType.新提取原因, res)
+      }
+    })
+  }
+}
+
+/**
+ * 字典类型
+ */
+export const dicType = {
+  性别: 'Gender',
+  证件类型: 'PersonalCertificate',
+  归集业务明细类型: 'CollectionAndExtractionDetailType',
+  贷款账户状态: 'LoanAccount',
+  贷款业务类型: 'LoanDetailType',
+  贷款还款类型: 'LoanRepaymentType',
+  贷款还款方式: 'LoanPaymentMode',
+  个人账户状态: 'PersonalAccountState',
+  业务状态: 'BusinessState',
+  提取业务状态: 'EntryState',
+  提取原因: 'ExtractReason',
+  新提取原因: 'NewExtractReason',
+  提取方式: 'ExtrationType',
+  提取办理人: 'ExtractTransactor',
+  //还公积金，还商贷
+  提取还款类型: 'ExtractRepayLoan',
+  单位账户状态: 'UnitAccountState',
+  学历: 'Educational',
+  健康状况: 'LoanHealthStatus',
+  婚姻状况: 'MaritalStatus',
+  职称: 'TechnicalTitle',
+  用工性质: 'LoanEmploymentNature',
+  主要经济来源: 'LoanEconomicSources',
+  单位类别: 'UnitClass',
+  参贷关系: 'LoanPartRelation',
+}
+
+/**
+ * 获取状态对应文字
+ * @param dicType
+ * @param state
+ * @returns {*}
+ */
+export const getDic = (dicType, state) => {
+  const states = getStore(dicType)
+  if (states === undefined || states === '') {
+    return {name: '', code: ''}
+  }
+  for (let i in states) {
+    if (state === states[i]['code']) {
+      return states[i]
+    }
+  }
+  return {name: '', code: ''}
+}
+export const getExtractReason = (state) => {
+  const states = getStore('NewExtractReason')
+  if (states === undefined || states === '') {
+    return {cusDrawReason: '', cusDrawCode: ''}
+  }
+  for (let i in states) {
+    if (state === states[i]['cusDrawCode']) {
+      return states[i]
+    }
+  }
+  return {cusDrawReason: '', cusDrawCode: ''}
+}
+
+/**
+ * 获取指定类型的所有选项
+ * @param dicType
+ * @returns {[]|Array}
+ */
+export const getDicAll = (dicType) => {
+  const states = getStore(dicType)
+  if (states === undefined || states === '') {
+    return []
+  }
+  return states
 }

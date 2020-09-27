@@ -6,6 +6,7 @@ import Activate from '@/views/login/activate'
 import Repayment from '@/views/system/repayment'
 import Network from '@/views/system/network'
 import Build from '@/views/system/build'
+import PersonInform from '@/views/system/personInform'
 
 Vue.use(Router)
 
@@ -66,6 +67,14 @@ export default new Router({
       meta: {
         requireAuth: false,
         title: '合作楼盘'
+      }
+    },
+    {
+      path: '/personInform',
+      component: PersonInform,
+      meta: {
+        requireAuth: true,
+        title: '个人信息查询'
       }
     }
   ]

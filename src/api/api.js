@@ -1,5 +1,5 @@
-import {commonPost, commonGet} from "../utils/axiosUtils"
-import {dealData} from "../utils/mUtils"
+import {commonPost, commonGet, get} from "../utils/axiosUtils"
+import {dealData, judgeObj, handingError} from "../utils/mUtils"
 
 /**
  * 修改密码
@@ -35,4 +35,37 @@ export const getBuildList = (data, callback) => {
   let url = '/loan/estateProject/noToken'
   url += data ? dealData(data) : ''
   commonGet(url, '', callback)
+}
+
+// 字典
+export const getDictionary = (callback) => {
+  get('/dictionary', '').then(res => {
+    if (judgeObj(res)) {
+      callback(res)
+    } else {
+      callback(handingError(res))
+    }
+  })
+}
+
+// 新提取原因
+export const getNewExtractReason = (callback) => {
+  get('/withdrawls/withdraw-reason', '').then(res => {
+    const result = res.Res
+    if (result instanceof Array || judgeObj(result)) {
+      callback(result)
+    } else {
+      callback(handingError(result))
+    }
+  })
+}
+
+/**
+ * 获取用户信息
+ * string grzh
+ * @param data
+ * @param callback
+ */
+export const getUserInfo = (data, callback) => {
+  commonGet('/collection/IndiAcctsInfoDetails/' + data, '', callback)
 }

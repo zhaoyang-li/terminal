@@ -68,7 +68,7 @@
         </div>
         <div @click="goPage('repayment')" class="model-card" style="background-color: rgba(238, 142, 4, 0.9);">
           <div class="card-content">
-            <i class="el-icon-date"></i>
+            <i class="fa fa-jpy"></i>
             <div class="card-title">还款计算</div>
           </div>
         </div>
@@ -463,17 +463,20 @@
         <el-button @click="privacyVisible = false">关闭</el-button>
       </span>
     </el-dialog>
+    <CountDown v-if="countDownWarning" :text="countDownText"></CountDown>
   </div>
 </template>
 
 <script>
   import {unitLogins, readlLogin, getDynamicCode} from "../../api/user"
-  import {getStore, setStore} from "../../utils/mUtils"
+  import {getStore, setStore, updateDic} from "../../utils/mUtils"
+  import bus from "../../utils/bus"
   import DateTime from "../../components/dateTime"
+  import CountDown from "../../components/countDown"
   export default {
     name: "index",
     components: {
-      DateTime
+      DateTime, CountDown
     },
     data() {
       return {
@@ -501,31 +504,55 @@
           dynamicPassword: ''
         },
         ZJHM: '',
+        tempURL: '',
+        tempComplaint: '',
         rules: {
           dwzh: [{required: true, message: '请输入单位账号', trigger: 'blur'}],
           password: [{required: true, message: '请输入密码', trigger: 'blur'}],
           dynamicPassword: [{required: true, message: '请输入短信验证码', trigger: 'blur'}]
-        }
+        },
+        countDownWarning: false,
+        countDownText: ''
       }
+    },
+    created() {
+      bus.$on('countDown', data => {
+        if (data > 0 && getStore('token')) {
+          this.countDownWarning = true
+          this.countDownText = data + '秒后退出登录'
+        }
+      })
+      bus.$on('closeCountDown', () => {
+        this.countDownWarning = false
+      })
     },
     mounted() {
       this.personLogin()
     },
     methods: {
       goPage(url) {
-        if ((url === 'personInform' || url === 'complaint') && !getStore('token')) {
+        if (url === 'personInform' && !getStore('token') && !getStore('GRZH')) {
+          this.tempComplaint = ''
           this.loginBox = true
           this.personLogin()
           return
         }
-        if (url === 'unitInform' && !getStore('token')) {
+        if (url === 'unitInform' && !getStore('token') && !getStore('DWZH')) {
+          this.tempComplaint = ''
           this.loginBox = true
           this.unitLogin()
+          return
+        }
+        if (url === 'complaint' && !getStore('token')) {
+          this.tempComplaint = '/complaint'
+          this.loginBox = true
+          this.personLogin()
           return
         }
         this.$router.push('/' + url)
       },
       unitLogin() {
+        this.tempURL = '/unitInform'
         this.readLoginBox = false
         this.loginTitle = '单位登录'
         this.agreement = false
@@ -535,6 +562,7 @@
         this.param.dynamicPassword = ''
       },
       personLogin() {
+        this.tempURL = '/personInform'
         this.readLoginBox = true
         this.loginTitle = '个人登录'
         this.agreement = false
@@ -561,7 +589,13 @@
               setStore('GRMC', res.userInfo.grxm)
               setStore('GRZH', res.userInfo.grzh)
               setStore('ZJHM', res.userInfo.zjhm)
+              updateDic()
               this.$message.success('登录成功！请操作完成后退出登录，以免信息泄露！')
+              if (this.tempComplaint !== '') {
+                this.$router.push(this.tempComplaint)
+              } else {
+                this.$router.push(this.tempURL)
+              }
             } else {
               this.$message.error(res.message)
             }
@@ -583,9 +617,15 @@
               if (res.response !== 'error') {
                 window.localStorage.clear()
                 setStore('token', res.token)
-                setStore('DWZH', res.unitInfo.dwzh)
-                setStore('DWMC', res.unitInfo.dwmc)
+                setStore('DWZH', res.userInfo.dwzh)
+                setStore('DWMC', res.userInfo.dwmc)
+                updateDic()
                 this.$message.success('登录成功！请操作完成后退出登录，以免信息泄露！')
+                if (this.tempComplaint !== '') {
+                  this.$router.push(this.tempComplaint)
+                } else {
+                  this.$router.push(this.tempURL)
+                }
               } else {
                 this.$message.error(res.message)
               }
