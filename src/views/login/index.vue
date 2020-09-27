@@ -92,7 +92,7 @@
       <el-form v-if="!readLoginBox" :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
         <el-form-item prop="dwzh">
           <el-input v-model="param.dwzh" placeholder="请输入单位账号" size="medium">
-            <el-button slot="prepend" icon="el-icon-postcard"></el-button>
+            <el-button size="small" slot="prepend" icon="el-icon-postcard"></el-button>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
@@ -101,9 +101,8 @@
             placeholder="初始密码为经办人身份证后六位"
             v-model="param.password"
             size="medium"
-            @keyup.enter.native="submitForm()"
           >
-            <el-button slot="prepend" icon="el-icon-lock"></el-button>
+            <el-button size="small" slot="prepend" icon="el-icon-lock"></el-button>
           </el-input>
         </el-form-item>
         <el-form-item prop="dynamicPassword">
@@ -112,8 +111,8 @@
             placeholder="请输入短信验证码"
             size="medium"
           >
-            <el-button slot="prepend" icon="el-icon-chat-dot-round"></el-button>
-            <el-button slot="append" @click="getCode" :disabled="countDown !== 60">{{countText}}</el-button>
+            <el-button size="small" slot="prepend" icon="el-icon-chat-dot-round"></el-button>
+            <el-button size="small" slot="append" @click="getCode" :disabled="countDown !== 60">{{countText}}</el-button>
           </el-input>
         </el-form-item>
         <div class="agreement">
@@ -126,21 +125,21 @@
           </span>
         </div>
         <div class="login-btn">
-          <el-button size="medium" type="primary" :loading="loading" @click.native.prevent="submitForm()">登录</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm()">登录</el-button>
         </div>
-        <el-button style="float: right" type="text" size="medium" @click="personLogin">
+        <el-button style="float: right" type="text" size="small" @click="personLogin">
           个人登录
         </el-button>
       </el-form>
       <el-form v-if="readLoginBox" label-width="0px" class="ms-content">
         <el-form-item >
           <el-input v-model="ZJHM" placeholder="请将身份证放在读取区域" size="medium">
-            <el-button slot="prepend" icon="el-icon-postcard"></el-button>
-            <el-button slot="append" @click="getIdCard">读取</el-button>
+            <el-button size="small" slot="prepend" icon="el-icon-postcard"></el-button>
+            <el-button size="small" slot="append" @click="getIdCard">读取</el-button>
           </el-input>
         </el-form-item>
         <div class="agreement">
-          <el-checkbox v-model="agreement"></el-checkbox>
+          <el-checkbox size="medium" v-model="agreement"></el-checkbox>
           <span>我已阅读并同意
             <span class="agreement-file" @click="loginVisible = true">《毕节市住房公积金业务大厅登录》</span>
             协议和
@@ -149,9 +148,9 @@
           </span>
         </div>
         <div class="login-btn">
-          <el-button size="medium" type="primary" :loading="loading" @click.native.prevent="submitReadForm()">登录</el-button>
+          <el-button type="primary" :loading="loading" @click="submitReadForm()">登录</el-button>
         </div>
-        <el-button style="float: right" type="text" size="medium" @click="unitLogin">
+        <el-button style="float: right" type="text" size="small" @click="unitLogin">
           单位登录
         </el-button>
       </el-form>
@@ -525,19 +524,22 @@
       bus.$on('closeCountDown', () => {
         this.countDownWarning = false
       })
+      window.setInterval(() => {
+        this.$router.go(0)
+      }, 3600 * 1000)
     },
     mounted() {
       this.personLogin()
     },
     methods: {
       goPage(url) {
-        if (url === 'personInform' && !getStore('token') && !getStore('GRZH')) {
+        if (url === 'personInform' && !getStore('GRZH')) {
           this.tempComplaint = ''
           this.loginBox = true
           this.personLogin()
           return
         }
-        if (url === 'unitInform' && !getStore('token') && !getStore('DWZH')) {
+        if (url === 'unitInform' && !getStore('DWZH')) {
           this.tempComplaint = ''
           this.loginBox = true
           this.unitLogin()

@@ -1,4 +1,6 @@
 import {baseURL, channel} from "../config/config"
+import router from '../router/index'
+import {Message} from 'element-ui'
 import {judgeObj, handingError, getStore} from '../utils/mUtils'
 import {JSEncrypt} from 'jsencrypt'
 
@@ -11,6 +13,18 @@ let publicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhVNCUrDBppyHXh6/k6y
 
 const encrypt = new JSEncrypt()
 encrypt.setPublicKey(publicKey)
+
+const handle401Error = res => {
+  if (res.status === 401) {
+    Message.info('令牌已过期，请重新登录！')
+    window.localStorage.clear()
+    router.push('/index')
+    return false
+  } else {
+    return {Res: {Code: '10000', Msg: '网络错误！'}}
+  }
+}
+
 const baseOptions = (params, method = 'GET') => {
   return new Promise((resolve) => {
     if (params.data) {
@@ -43,8 +57,14 @@ const baseOptions = (params, method = 'GET') => {
       } else {
         resolve({Res: {Code: res.data.code, Msg: res.data.message}})
       }
-    }).catch(() => {
-      resolve({Res: {Code: '10000', Msg: '网络错误！'}})
+    }).catch((error) => {
+      if (error.response) {
+        if (handle401Error(error.response)) {
+          resolve(handle401Error(error.response))
+        }
+      } else {
+        resolve({Res: {Code: '10000', Msg: '网络错误！'}})
+      }
     })
   })
 }

@@ -321,10 +321,11 @@ export const dicType = {
  * @returns {*}
  */
 export const getDic = (dicType, state) => {
-  const states = getStore(dicType)
+  let states = getStore(dicType)
   if (states === undefined || states === '') {
     return {name: '', code: ''}
   }
+  states = JSON.parse(states)
   for (let i in states) {
     if (state === states[i]['code']) {
       return states[i]
@@ -333,10 +334,11 @@ export const getDic = (dicType, state) => {
   return {name: '', code: ''}
 }
 export const getExtractReason = (state) => {
-  const states = getStore('NewExtractReason')
+  let states = getStore('NewExtractReason')
   if (states === undefined || states === '') {
     return {cusDrawReason: '', cusDrawCode: ''}
   }
+  states = JSON.parse(states)
   for (let i in states) {
     if (state === states[i]['cusDrawCode']) {
       return states[i]
@@ -355,5 +357,17 @@ export const getDicAll = (dicType) => {
   if (states === undefined || states === '') {
     return []
   }
-  return states
+  return JSON.parse(states)
+}
+
+/**
+ * 隐藏手机号码
+ * @param phone
+ * @returns {string}
+ */
+export const hidePhoneNum = (phone) => {
+  if (phone === undefined || phone === '') {
+    return ''
+  }
+  return phone.substr(0, 3) + '****' + phone.substr(7)
 }

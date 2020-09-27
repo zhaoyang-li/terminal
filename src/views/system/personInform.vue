@@ -6,8 +6,27 @@
         <DateTime></DateTime>
       </div>
     </div>
-    <div class="container scrollbar">
-      <div>个人信息</div>
+    <div class="container scrollbar" v-loading="loading">
+      <el-row class="inform-row">
+        <el-col :span="6" class="inform-col">姓名：{{JBXX.XingMing}}</el-col>
+        <el-col :span="9" class="inform-col">个人账号：{{JBXX.GRZH}}</el-col>
+        <el-col :span="9" class="inform-col">个人账号状态：{{JBXX.GRZHZT}}</el-col>
+      </el-row>
+      <el-row class="inform-row">
+        <el-col :span="6">证件类型：{{JBXX.ZJLX}}</el-col>
+        <el-col :span="9">证件号码：{{JBXX.ZJHM}}</el-col>
+        <el-col :span="9">出生年月：{{JBXX.CSNY}}</el-col>
+      </el-row>
+      <el-row class="inform-row">
+        <el-col :span="6">手机号码：{{JBXX.SJHM}}</el-col>
+        <el-col :span="9">开户银行名称：{{JBXX.GRCKZHKHYHMC}}</el-col>
+        <el-col :span="9">银行账户号码：{{JBXX.GRCKZHHM}}</el-col>
+      </el-row>
+      <div style="margin-left: 70px;">
+        <el-button size="medium" type="primary" class="mr5">缴存信息</el-button>
+        <el-button style="margin: 0 80px;" size="medium" type="warning" class="mr5">提取记录</el-button>
+        <el-button size="medium" type="danger" class="mr5">贷款信息</el-button>
+      </div>
     </div>
     <div class="login-footer">
       <IconText icon="fa fa-sign-out" text="退出" @click="signOut"></IconText>
@@ -23,8 +42,8 @@
   import IconText from "../../components/iconText"
   import CountDown from "../../components/countDown"
   import bus from "../../utils/bus"
-  import {getBuildList, getUserInfo} from "../../api/api"
-  import {getStore} from "../../utils/mUtils"
+  import {getUserInfo} from "../../api/api"
+  import {getStore, getDic, dicType, hideIdcard, hidePhoneNum} from "../../utils/mUtils"
 
   export default {
     name: "personInform",
@@ -34,19 +53,19 @@
     data() {
       return {
         loading: false,
-        searchForm: {
-          YWWD: undefined,
-          pageNo: 1,
-          pageSize: 6
-        },
-        pageTotal: 0,
-        tableData: [],
-        networkList: [{
-          id: undefined,
-          MingCheng: '所有'
-        }],
         countDown: false,
-        countText: ''
+        countText: '',
+        JBXX: {
+          XingMing: '',
+          GRZH: '',
+          GRZHZT: '',
+          ZJLX: '',
+          ZJHM: '',
+          CSNY: '',
+          SJHM: '',
+          GRCKZHKHYHMC: '',
+          GRCKZHHM: ''
+        }
       }
     },
     created() {
@@ -59,9 +78,16 @@
       bus.$on('closeCountDown', () => {
         this.countDown = false
       })
+      this.loading = true
       getUserInfo(getStore('GRZH'), res => {
+        this.loading = false
         if (res.response !== 'error') {
           console.log(res)
+          res.JBXX.GRZHZT = getDic(dicType.个人账户状态, res.JBXX.GRZHZT).name
+          res.JBXX.ZJLX = getDic(dicType.证件类型, res.JBXX.ZJLX).name
+          res.JBXX.ZJHM = hideIdcard(res.JBXX.ZJHM)
+          res.JBXX.SJHM = hidePhoneNum(res.JBXX.SJHM)
+          this.JBXX = res.JBXX
         } else {
           this.$message.error(res.message)
         }
@@ -78,26 +104,6 @@
       signOut() {
         window.localStorage.clear()
         this.$router.push('/index')
-      },
-      getData() {
-        this.loading = true
-        getBuildList({SFQY: '1', YWWD: this.searchForm.YWWD, pageNo: this.searchForm.pageNo, pageSize: this.searchForm.pageSize}, res => {
-          this.loading = false
-          if (res.response !== 'error') {
-            this.tableData = res.results
-            this.pageTotal = res.totalCount
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      },
-      changeNetwork () {
-        this.$set(this.searchForm, 'pageNo', 1)
-        this.getData()
-      },
-      handlePageChange (val) {
-        this.$set(this.searchForm, 'pageNo', val)
-        this.getData()
       }
     }
   }
@@ -137,5 +143,9 @@
     bottom: 10px;
     background-color: rgba(22, 152, 228, 0.4);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+  }
+  .inform-row {
+    margin: 10px 10px 40px 70px;
+    font-size: 20px;
   }
 </style>
