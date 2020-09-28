@@ -10,11 +10,11 @@
     name: 'PDF',
     props: ["pdfURL"],
     mounted () {
-      PDFObject.embed(getFileInfo(this.pdfURL.Id), '#pdfContainer')
+      PDFObject.embed(getFileInfo(this.pdfURL), '#pdfContainer')
     },
     watch: {
       pdfURL: function () {
-        const url = getFileInfo(this.pdfURL.Id)
+        const url = getFileInfo(this.pdfURL)
         PDFObject.embed(url, '#pdfContainer')
       }
     }
@@ -22,7 +22,7 @@
 </script>
 <style scoped>
   #pdfContainer {
-    height: 100%;
+    height: 650px;
     width: 100%;
   }
 </style>

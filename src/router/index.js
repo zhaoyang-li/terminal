@@ -7,6 +7,7 @@ import Repayment from '@/views/system/repayment'
 import Network from '@/views/system/network'
 import Build from '@/views/system/build'
 import PersonInform from '@/views/system/personInform'
+import Collection from '@/views/system/collection'
 
 Vue.use(Router)
 
@@ -75,6 +76,14 @@ export default new Router({
       meta: {
         requireAuth: true,
         title: '个人信息查询'
+      }
+    },
+    {
+      path: '/collection',
+      component: Collection,
+      meta: {
+        requireAuth: true,
+        title: '缴存信息'
       }
     }
   ]

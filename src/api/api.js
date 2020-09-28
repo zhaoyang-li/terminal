@@ -69,3 +69,60 @@ export const getNewExtractReason = (callback) => {
 export const getUserInfo = (data, callback) => {
   commonGet('/collection/IndiAcctsInfoDetails/' + data, '', callback)
 }
+
+/**
+ * 获取异地缴存证明pdf
+ * @param grzh string 个人账号
+ * @param callback
+ */
+export const getLoadProvePdf = (grzh, callback) => {
+  commonGet('/collection/diffTerritoryLoadProvePdf/' + grzh, '', callback)
+}
+
+/**
+ * 获取个人缴存记录
+ * @param data = {
+        year: 年,
+        grzh: 个人账号
+      }
+ * @param callback
+ */
+export const getPersonDeposit = (data, callback) => {
+  commonGet('/social/list/personDeposit/' + data.year + '?GRZH=' + data.grzh, '', callback)
+}
+
+/**
+ * 获取个人缴存记录pdf文件
+ * @param data = {
+        year: 年,
+        grzh: 个人账号
+      }
+ * @param callback
+ */
+export const getPersonDepositPdf = (data, callback) => {
+  commonGet('/social/pdf/personDeposit/' + data.year + '?GRZH=' + data.grzh, '', callback)
+}
+
+/**
+ * 获取个人提取记录
+ * @param data = {
+        year: 年,
+        grzh: 个人账号
+      }
+ * @param callback
+ */
+export const getWithdrawlList = (data, callback) => {
+  commonGet('/social/list/personWithdraw/' + data.year + '?GRZH=' + data.grzh, '', callback)
+}
+
+/**
+ * 获取个人提取记录PDF
+ * @param data = {
+        year: 年,
+        grzh: 个人账号
+      }
+ * @param callback
+ */
+export const getWithdrawlPDF = (data, callback) => {
+  commonGet('/social/pdf/personWithdraw/' + data.year + '?GRZH=' + data.grzh, '', callback)
+}

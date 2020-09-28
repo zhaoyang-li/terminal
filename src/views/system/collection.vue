@@ -8,24 +8,33 @@
     </div>
     <div class="container scrollbar" v-loading="loading">
       <el-row class="inform-row">
-        <el-col :span="6" class="inform-col">姓名：{{JBXX.XingMing}}</el-col>
-        <el-col :span="9" class="inform-col">个人账号：{{JBXX.GRZH}}</el-col>
-        <el-col :span="9" class="inform-col">个人账号状态：{{JBXX.GRZHZT}}</el-col>
+        <el-col :span="12" class="inform-col">个人缴存比例：{{JCXX.GRJCBL}}% </el-col>
+        <el-col :span="12" class="inform-col">单位缴存比例：{{JCXX.DWJCBL}}%</el-col>
       </el-row>
       <el-row class="inform-row">
-        <el-col :span="6">证件类型：{{JBXX.ZJLX}}</el-col>
-        <el-col :span="9">证件号码：{{JBXX.ZJHM}}</el-col>
-        <el-col :span="9">出生年月：{{JBXX.CSNY}}</el-col>
+        <el-col :span="12" class="inform-col">个人月缴存额：{{JCXX.GRYJCE}}元</el-col>
+        <el-col :span="12" class="inform-col">单位月缴存额：{{JCXX.DWYJCE}}元</el-col>
       </el-row>
       <el-row class="inform-row">
-        <el-col :span="6">手机号码：{{JBXX.SJHM}}</el-col>
-        <el-col :span="9">开户银行名称：{{JBXX.GRCKZHKHYHMC}}</el-col>
-        <el-col :span="9">银行账户号码：{{JBXX.GRCKZHHM}}</el-col>
+        <el-col :span="8" class="inform-col">个人账户余额：{{JCXX.GRZHYE}}元</el-col>
+        <el-col :span="8" class="inform-col">个人缴存基数：{{JCXX.GRJCJS}}元</el-col>
+        <el-col :span="8" class="inform-col">缴至年月：{{JCXX.JZNY}}</el-col>
       </el-row>
-      <div style="margin-right: 100px; float: right;">
-        <el-button size="medium" type="primary" class="mr5" @click="goPage('/collection')">缴存信息</el-button>
-        <el-button style="margin: 0 80px;" size="medium" type="warning" class="mr5" @click="goExtract">提取记录</el-button>
-        <el-button size="medium" type="danger" class="mr5">贷款信息</el-button>
+      <el-row class="inform-row">
+        <el-col :span="8" class="inform-col">单位名称：{{JCXX.DWMC}}</el-col>
+        <el-col :span="8" class="inform-col">单位账号：{{JCXX.DWZH}}</el-col>
+        <el-col :span="8" class="inform-col">单位账户状态：{{JCXX.DWZHZT}}</el-col>
+      </el-row>
+      <div style="margin-right: 50px; float: right;">
+        <el-button
+          type="warning"
+          class="mr5"
+          :loading="buttonLoading"
+          @click="getLoadProvePdf"
+        >
+          打印《异地贷款缴存证明》
+        </el-button>
+        <el-button style="margin: 0 80px;" type="primary" class="mr5" @click="getDeposit">汇缴记录</el-button>
       </div>
     </div>
     <div class="login-footer">
@@ -37,8 +46,8 @@
     <el-dialog title="打印" fullscreen :visible.sync="pdfShow">
       <PDF :pdfURL="pdf"></PDF>
     </el-dialog>
-    <!-- 提取记录 -->
-    <el-dialog title="提取记录" width="900px" :visible.sync="extractVisible" :close-on-click-modal="false">
+    <!-- 汇缴记录 -->
+    <el-dialog title="汇缴记录" width="900px" :visible.sync="collectionVisible" :close-on-click-modal="false">
       <el-form ref="searchForm" :model="searchForm" label-width="90px">
         <el-form-item label="汇缴年份:" prop="year">
           <el-date-picker
@@ -47,21 +56,23 @@
             type="year"
             :picker-options="pickerOptions"
             value-format="yyyy"
-            @change="getExtractData"
+            @change="getCollectionData"
           ></el-date-picker>
         </el-form-item>
       </el-form>
-      <el-table class="scrollbar" :data="extractData" border v-loading="dialogLoading" height="350">
-        <el-table-column prop="dwmc" label="单位名称" align="center"></el-table-column>
-        <el-table-column prop="fse" label="发生额" align="center"></el-table-column>
-        <el-table-column prop="tqyy" label="提取原因" align="center"></el-table-column>
-        <el-table-column prop="tqrq" label="提取日期" align="center"></el-table-column>
-        <el-table-column prop="ljtqje" label="累计提取金额" align="center"></el-table-column>
-        <el-table-column prop="ywwd" label="业务网点" align="center"></el-table-column>
+      <el-table class="scrollbar" :data="collectionData" border v-loading="dialogLoading" height="350">
+        <el-table-column prop="YWLX" label="业务类型" align="center"></el-table-column>
+        <el-table-column prop="DWMC" label="单位名称" align="center"></el-table-column>
+        <el-table-column prop="FSE" label="发生额" align="center"></el-table-column>
+        <el-table-column prop="GRZHYE" label="个人账户余额" align="center"></el-table-column>
+        <el-table-column prop="HJNY" label="汇缴年月" align="center">
+          <template slot-scope="scope">{{scope.row.HJNY ? scope.row.HJNY : '——'}}</template>
+        </el-table-column>
+        <el-table-column prop="JZRQ" label="记账日期" align="center"></el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" :loading="buttonLoading" @click="getExtractToPDF">打印提取记录</el-button>
-        <el-button style="margin-left: 20px;" @click="extractVisible = false">关闭</el-button>
+        <el-button type="primary" :loading="buttonLoading" @click="getDepositToPDF">打印汇缴记录</el-button>
+        <el-button style="margin-left: 20px;" @click="collectionVisible = false">关闭</el-button>
       </span>
     </el-dialog>
   </div>
@@ -73,11 +84,11 @@
   import CountDown from "../../components/countDown"
   import PDF from "../../components/PDF"
   import bus from "../../utils/bus"
-  import {getUserInfo, getWithdrawlList, getWithdrawlPDF} from "../../api/api"
-  import {getStore, getDic, dicType, hideIdcard, hidePhoneNum, dateFormat} from "../../utils/mUtils"
+  import {getUserInfo, getLoadProvePdf, getPersonDeposit, getPersonDepositPdf} from "../../api/api"
+  import {getStore, getDic, dicType, dateFormat} from "../../utils/mUtils"
 
   export default {
-    name: "personInform",
+    name: "collection",
     components: {
       DateTime, IconText, CountDown, PDF
     },
@@ -86,7 +97,22 @@
         pdfShow: false,
         pdf: '',
         buttonLoading: false,
-        extractVisible: false,
+        collectionVisible: false,
+        loading: false,
+        countDown: false,
+        countText: '',
+        JCXX: {
+          GRJCBL: '',
+          DWJCBL: '',
+          GRYJCE: '',
+          DWYJCE: '',
+          GRZHYE: '',
+          GRJCJS: '',
+          DWMC: '',
+          DWZH: '',
+          DWZHZT: '',
+          JZNY: ''
+        },
         searchForm: {
           year: dateFormat(undefined, 'yyyy')
         },
@@ -95,22 +121,8 @@
             return time.getTime() > Date.now()
           }
         },
-        extractData: [],
-        dialogLoading: false,
-        loading: false,
-        countDown: false,
-        countText: '',
-        JBXX: {
-          XingMing: '',
-          GRZH: '',
-          GRZHZT: '',
-          ZJLX: '',
-          ZJHM: '',
-          CSNY: '',
-          SJHM: '',
-          GRCKZHKHYHMC: '',
-          GRCKZHHM: ''
-        }
+        collectionData: [],
+        dialogLoading: false
       }
     },
     created() {
@@ -127,35 +139,44 @@
       getUserInfo(getStore('GRZH'), res => {
         this.loading = false
         if (res.response !== 'error') {
-          res.JBXX.GRZHZT = getDic(dicType.个人账户状态, res.JBXX.GRZHZT).name
-          res.JBXX.ZJLX = getDic(dicType.证件类型, res.JBXX.ZJLX).name
-          res.JBXX.ZJHM = hideIdcard(res.JBXX.ZJHM)
-          res.JBXX.SJHM = hidePhoneNum(res.JBXX.SJHM)
-          this.JBXX = res.JBXX
+          res.JCXX[0].DWZHZT = getDic(dicType.单位账户状态, res.JCXX[0].DWZHZT).name
+          this.JCXX = res.JCXX[0]
         } else {
           this.$message.error(res.message)
         }
       })
     },
     methods: {
-      goExtract() {
-        this.extractVisible = true
-        this.getExtractData()
+      getLoadProvePdf() {
+        this.buttonLoading = true
+        getLoadProvePdf(getStore('GRZH'), res => {
+          this.pdfShow = true
+          this.buttonLoading = false
+          if (res.response !== 'error') {
+            this.pdf = res.Id
+          } else {
+            this.$message.error(res.message)
+          }
+        })
       },
-      getExtractData() {
+      getDeposit() {
+        this.collectionVisible = true
+        this.getCollectionData()
+      },
+      getCollectionData() {
         this.dialogLoading = true
-        getWithdrawlList({year: this.searchForm.year, grzh: getStore('GRZH')}, res => {
+        getPersonDeposit({year: this.searchForm.year, grzh: getStore('GRZH')}, res => {
           this.dialogLoading = false
           if (res.response !== 'error') {
-            this.extractData = res
+            this.collectionData = res
           } else {
             this.$message(res.message)
           }
         })
       },
-      getExtractToPDF() {
+      getDepositToPDF() {
         this.buttonLoading = true
-        getWithdrawlPDF({year: this.searchForm.year, grzh: getStore('GRZH')}, res => {
+        getPersonDepositPdf({year: this.searchForm.year, grzh: getStore('GRZH')}, res => {
           this.pdfShow = true
           this.buttonLoading = false
           if (res.response !== 'error') {
@@ -218,5 +239,6 @@
   .inform-row {
     margin: 10px 10px 40px 70px;
     font-size: 20px;
+    text-align: center;
   }
 </style>
