@@ -8,9 +8,9 @@
     </div>
     <div class="container scrollbar" v-loading="loading">
       <el-row class="inform-row">
-        <el-col :span="6" class="inform-col">姓名：{{JBXX.XingMing}}</el-col>
-        <el-col :span="9" class="inform-col">个人账号：{{JBXX.GRZH}}</el-col>
-        <el-col :span="9" class="inform-col">个人账号状态：{{JBXX.GRZHZT}}</el-col>
+        <el-col :span="6">姓名：{{JBXX.XingMing}}</el-col>
+        <el-col :span="9">个人账号：{{JBXX.GRZH}}</el-col>
+        <el-col :span="9">个人账号状态：{{JBXX.GRZHZT}}</el-col>
       </el-row>
       <el-row class="inform-row">
         <el-col :span="6">证件类型：{{JBXX.ZJLX}}</el-col>
@@ -24,8 +24,8 @@
       </el-row>
       <div style="margin-right: 100px; float: right;">
         <el-button size="medium" type="primary" class="mr5" @click="goPage('/collection')">缴存信息</el-button>
-        <el-button style="margin: 0 80px;" size="medium" type="warning" class="mr5" @click="goExtract">提取记录</el-button>
-        <el-button size="medium" type="danger" class="mr5">贷款信息</el-button>
+        <el-button style="margin: 0 80px;" size="medium" type="warning" @click="goExtract">提取记录</el-button>
+        <el-button :disabled="DKXX.length === 0" size="medium" type="danger" class="mr5" @click="goPage('/loan')">贷款信息</el-button>
       </div>
     </div>
     <div class="login-footer">
@@ -110,7 +110,8 @@
           SJHM: '',
           GRCKZHKHYHMC: '',
           GRCKZHHM: ''
-        }
+        },
+        DKXX: []
       }
     },
     created() {
@@ -132,6 +133,7 @@
           res.JBXX.ZJHM = hideIdcard(res.JBXX.ZJHM)
           res.JBXX.SJHM = hidePhoneNum(res.JBXX.SJHM)
           this.JBXX = res.JBXX
+          this.DKXX = res.DKXX
         } else {
           this.$message.error(res.message)
         }
@@ -156,9 +158,9 @@
       getExtractToPDF() {
         this.buttonLoading = true
         getWithdrawlPDF({year: this.searchForm.year, grzh: getStore('GRZH')}, res => {
-          this.pdfShow = true
           this.buttonLoading = false
           if (res.response !== 'error') {
+            this.pdfShow = true
             this.pdf = res.Id
           } else {
             this.$message.error(res.message)

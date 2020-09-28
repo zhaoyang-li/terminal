@@ -223,7 +223,7 @@ export function handingError(info) {
  * @returns {string}
  */
 export const hideIdcard = (idcard) => {
-  if (idcard === undefined) {
+  if (idcard === undefined || idcard === '') {
     return ''
   }
   return idcard.substr(0, 4) + (idcard.length === 15 ? '*******' : '**********') + idcard.substr(idcard.length - 4)
@@ -294,6 +294,7 @@ export const dicType = {
   贷款业务类型: 'LoanDetailType',
   贷款还款类型: 'LoanRepaymentType',
   贷款还款方式: 'LoanPaymentMode',
+  贷款用途: 'LoanPurpose',
   个人账户状态: 'PersonalAccountState',
   业务状态: 'BusinessState',
   提取业务状态: 'EntryState',

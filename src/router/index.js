@@ -8,6 +8,7 @@ import Network from '@/views/system/network'
 import Build from '@/views/system/build'
 import PersonInform from '@/views/system/personInform'
 import Collection from '@/views/system/collection'
+import Loan from '@/views/system/loan'
 
 Vue.use(Router)
 
@@ -84,6 +85,14 @@ export default new Router({
       meta: {
         requireAuth: true,
         title: '缴存信息'
+      }
+    },
+    {
+      path: '/loan',
+      component: Loan,
+      meta: {
+        requireAuth: true,
+        title: '贷款信息'
       }
     }
   ]

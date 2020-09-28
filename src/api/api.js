@@ -126,3 +126,52 @@ export const getWithdrawlList = (data, callback) => {
 export const getWithdrawlPDF = (data, callback) => {
   commonGet('/social/pdf/personWithdraw/' + data.year + '?GRZH=' + data.grzh, '', callback)
 }
+
+/**
+ * 获取个人贷款记录
+ * @param data = {
+        year: 年,
+        grzh: 个人账号
+      }
+ * @param callback
+ */
+export const getLoanRecord = (data, callback) => {
+  let url = '/loan/loanRecord'
+  url += data ? dealData(data) : ''
+  commonGet(url, '', callback)
+}
+
+/**
+ * 获取结清证明pdf
+ * @param dkzh string 贷款账号
+ * @param callback
+ */
+export const getSquareReceiptPdf = (dkzh, callback) => {
+  commonGet('/loan/account/SquareReceipt/' + dkzh, '', callback)
+}
+
+/**
+ * 获取还款计划
+ * DKZH string 贷款账号
+ */
+export const getLoanPaymentPlan = (DKZH, callback) => {
+  commonGet('/loan/account/Plan/' + DKZH + '?state=1', '', callback)
+}
+
+/**
+ * 获取还款明细
+ * DKZH string 贷款账号
+ * year string 年份
+ */
+export const getLoanInfoList = (DKZH, year, callback) => {
+  commonGet('/social/list/personLoan/' + DKZH + '/' + year, '', callback)
+}
+
+/**
+  * 查询打印贷款信息
+  * year string 年
+  * DKZH string 贷款账号
+  */
+export const getLoanInfoPDF = (DKZH, year, callback) => {
+  commonGet('/social/pdf/personLoan/' + DKZH + '/' + year, '', callback)
+}

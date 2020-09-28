@@ -8,22 +8,22 @@
     </div>
     <div class="container scrollbar" v-loading="loading">
       <el-row class="inform-row">
-        <el-col :span="12" class="inform-col">个人缴存比例：{{JCXX.GRJCBL}}% </el-col>
-        <el-col :span="12" class="inform-col">单位缴存比例：{{JCXX.DWJCBL}}%</el-col>
+        <el-col :span="12">个人缴存比例：{{JCXX.GRJCBL}}% </el-col>
+        <el-col :span="12">单位缴存比例：{{JCXX.DWJCBL}}%</el-col>
       </el-row>
       <el-row class="inform-row">
-        <el-col :span="12" class="inform-col">个人月缴存额：{{JCXX.GRYJCE}}元</el-col>
-        <el-col :span="12" class="inform-col">单位月缴存额：{{JCXX.DWYJCE}}元</el-col>
+        <el-col :span="12">个人月缴存额：{{JCXX.GRYJCE}}元</el-col>
+        <el-col :span="12">单位月缴存额：{{JCXX.DWYJCE}}元</el-col>
       </el-row>
       <el-row class="inform-row">
-        <el-col :span="8" class="inform-col">个人账户余额：{{JCXX.GRZHYE}}元</el-col>
-        <el-col :span="8" class="inform-col">个人缴存基数：{{JCXX.GRJCJS}}元</el-col>
-        <el-col :span="8" class="inform-col">缴至年月：{{JCXX.JZNY}}</el-col>
+        <el-col :span="8">个人账户余额：{{JCXX.GRZHYE}}元</el-col>
+        <el-col :span="8">个人缴存基数：{{JCXX.GRJCJS}}元</el-col>
+        <el-col :span="8">缴至年月：{{JCXX.JZNY}}</el-col>
       </el-row>
       <el-row class="inform-row">
-        <el-col :span="8" class="inform-col">单位名称：{{JCXX.DWMC}}</el-col>
-        <el-col :span="8" class="inform-col">单位账号：{{JCXX.DWZH}}</el-col>
-        <el-col :span="8" class="inform-col">单位账户状态：{{JCXX.DWZHZT}}</el-col>
+        <el-col :span="8">单位名称：{{JCXX.DWMC}}</el-col>
+        <el-col :span="8">单位账号：{{JCXX.DWZH}}</el-col>
+        <el-col :span="8">单位账户状态：{{JCXX.DWZHZT}}</el-col>
       </el-row>
       <div style="margin-right: 50px; float: right;">
         <el-button
@@ -150,9 +150,9 @@
       getLoadProvePdf() {
         this.buttonLoading = true
         getLoadProvePdf(getStore('GRZH'), res => {
-          this.pdfShow = true
           this.buttonLoading = false
           if (res.response !== 'error') {
+            this.pdfShow = true
             this.pdf = res.Id
           } else {
             this.$message.error(res.message)
@@ -177,9 +177,9 @@
       getDepositToPDF() {
         this.buttonLoading = true
         getPersonDepositPdf({year: this.searchForm.year, grzh: getStore('GRZH')}, res => {
-          this.pdfShow = true
           this.buttonLoading = false
           if (res.response !== 'error') {
+            this.pdfShow = true
             this.pdf = res.Id
           } else {
             this.$message.error(res.message)
