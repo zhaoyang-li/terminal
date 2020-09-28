@@ -7,6 +7,7 @@
       </div>
     </div>
     <div class="container scrollbar" v-loading="loading">
+      <div style="text-align: center; font-size: 22px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: #8cc5ff solid 1px;">贷款信息</div>
       <el-row class="inform-row">
         <el-col :span="8">贷款账号：
           <el-select v-model="loanIndex">

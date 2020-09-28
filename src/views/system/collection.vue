@@ -7,6 +7,7 @@
       </div>
     </div>
     <div class="container scrollbar" v-loading="loading">
+      <div style="text-align: center; font-size: 22px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: #8cc5ff solid 1px;">缴存信息</div>
       <el-row class="inform-row">
         <el-col :span="12">个人缴存比例：{{JCXX.GRJCBL}}% </el-col>
         <el-col :span="12">单位缴存比例：{{JCXX.DWJCBL}}%</el-col>

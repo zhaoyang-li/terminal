@@ -7,6 +7,7 @@
       </div>
     </div>
     <div class="container scrollbar" v-loading="loading">
+      <div style="text-align: center; font-size: 22px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: #8cc5ff solid 1px;">基本信息</div>
       <el-row class="inform-row">
         <el-col :span="6">姓名：{{JBXX.XingMing}}</el-col>
         <el-col :span="9">个人账号：{{JBXX.GRZH}}</el-col>
