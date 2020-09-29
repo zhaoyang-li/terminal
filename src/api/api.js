@@ -48,18 +48,6 @@ export const getDictionary = (callback) => {
   })
 }
 
-// 新提取原因
-export const getNewExtractReason = (callback) => {
-  get('/withdrawls/withdraw-reason', '').then(res => {
-    const result = res.Res
-    if (result instanceof Array || judgeObj(result)) {
-      callback(result)
-    } else {
-      callback(handingError(result))
-    }
-  })
-}
-
 /**
  * 获取用户信息
  * string grzh
@@ -174,4 +162,12 @@ export const getLoanInfoList = (DKZH, year, callback) => {
   */
 export const getLoanInfoPDF = (DKZH, year, callback) => {
   commonGet('/social/pdf/personLoan/' + DKZH + '/' + year, '', callback)
+}
+
+/**
+ * 根据单位账号, 获取单位开户信息
+ * DWZH string 单位账号
+ */
+export const getUnitAcctDetailInfo = (DWZH, callback) => {
+  commonGet('/collection/unitAcctsInfo/' + DWZH, '', callback)
 }

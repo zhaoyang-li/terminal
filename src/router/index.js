@@ -9,6 +9,7 @@ import Build from '@/views/system/build'
 import PersonInform from '@/views/system/personInform'
 import Collection from '@/views/system/collection'
 import Loan from '@/views/system/loan'
+import UnitInform from '@/views/system/unitInform'
 
 Vue.use(Router)
 
@@ -93,6 +94,14 @@ export default new Router({
       meta: {
         requireAuth: true,
         title: '贷款信息'
+      }
+    },
+    {
+      path: '/unitInform',
+      component: UnitInform,
+      meta: {
+        requireAuth: true,
+        title: '单位信息'
       }
     }
   ]

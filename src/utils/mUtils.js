@@ -1,6 +1,6 @@
 import qs from 'qs'
 import {baseURL, channel} from "../config/config"
-import {getDictionary, getNewExtractReason} from "../api/api"
+import {getDictionary} from "../api/api"
 
 /**
  * 存储localStorage
@@ -87,6 +87,13 @@ export function dateFormat (time, fmt, last, future) {
       o['M+'] = 12
     } else {
       o['M+']--
+    }
+  } else if (last === 'next_month') {
+    if (o['M+'] === 12) {
+      year++
+      o['M+'] = 1
+    } else {
+      o['M+']++
     }
   }
 
@@ -275,11 +282,6 @@ export function updateDic() {
         }
       }
     })
-    getNewExtractReason(res => {
-      if (res.response !== 'error') {
-        setStore(dicType.新提取原因, res)
-      }
-    })
   }
 }
 
@@ -287,32 +289,19 @@ export function updateDic() {
  * 字典类型
  */
 export const dicType = {
-  性别: 'Gender',
   证件类型: 'PersonalCertificate',
-  归集业务明细类型: 'CollectionAndExtractionDetailType',
   贷款账户状态: 'LoanAccount',
   贷款业务类型: 'LoanDetailType',
-  贷款还款类型: 'LoanRepaymentType',
-  贷款还款方式: 'LoanPaymentMode',
   贷款用途: 'LoanPurpose',
   个人账户状态: 'PersonalAccountState',
-  业务状态: 'BusinessState',
-  提取业务状态: 'EntryState',
-  提取原因: 'ExtractReason',
-  新提取原因: 'NewExtractReason',
-  提取方式: 'ExtrationType',
-  提取办理人: 'ExtractTransactor',
-  //还公积金，还商贷
-  提取还款类型: 'ExtractRepayLoan',
   单位账户状态: 'UnitAccountState',
-  学历: 'Educational',
-  健康状况: 'LoanHealthStatus',
-  婚姻状况: 'MaritalStatus',
-  职称: 'TechnicalTitle',
-  用工性质: 'LoanEmploymentNature',
-  主要经济来源: 'LoanEconomicSources',
+  单位隶属关系: 'UnitRelationship',
   单位类别: 'UnitClass',
-  参贷关系: 'LoanPartRelation',
+  单位经济关系: 'UnitEconomyClass',
+  控股情况: 'UnitHolding',
+  单位所属行业: 'UnitIndustry',
+  单位行政区域: 'UnitArea',
+  批准机关级别: 'UnitLevel'
 }
 
 /**
@@ -333,19 +322,6 @@ export const getDic = (dicType, state) => {
     }
   }
   return {name: '', code: ''}
-}
-export const getExtractReason = (state) => {
-  let states = getStore('NewExtractReason')
-  if (states === undefined || states === '') {
-    return {cusDrawReason: '', cusDrawCode: ''}
-  }
-  states = JSON.parse(states)
-  for (let i in states) {
-    if (state === states[i]['cusDrawCode']) {
-      return states[i]
-    }
-  }
-  return {cusDrawReason: '', cusDrawCode: ''}
 }
 
 /**

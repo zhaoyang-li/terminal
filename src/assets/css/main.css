@@ -162,3 +162,8 @@ a {
 .el-button--medium {
   font-size: 20px !important;
 }
+
+.el-divider__text {
+  font-size: 18px !important;
+  color: #66b1ff !important;
+}
