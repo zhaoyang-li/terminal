@@ -4,12 +4,12 @@ import {Message} from 'element-ui'
 import {judgeObj, handingError, getStore} from '../utils/mUtils'
 import {JSEncrypt} from 'jsencrypt'
 
-let publicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhVNCUrDBppyHXh6/k6yZ1jdjLleQIOn5\n' +
-  'kohpVJwS/yWYsJCqpQWADEIAtWoLRoxZN6vVOb+PWeuHGh045GmbcXc7NbrRbM1WE3gN+1uQsLmR\n' +
-  'Hq8YAoBHkzd1JaliUrBsOwE0MQEr/SCvXjQ8z2EWLf7t5h58iCi8aTvbPRlJC3Fy1LvTInCH/akH\n' +
-  'os3e9qQsZpFCEcKfdrpwnuKWHqwmkdcyqzAWGtq7mGIoOn+03c7T2R8aPAKyZEhe/IF46kKsiFEp\n' +
-  'QXKh3J8P63EYin/AgmaINrWz+THxMHCwapPovxjUU2W0WgHR/2Epma5Q/UZLVNpmIzlE3dMMyUyW\n' +
-  'ePLqBwIDAQAB'
+let publicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkZbnWeHTj3EnqSSgj+bz8GBY0R9oSJqT\n' +
+  'GlhrNrQY7CmBSJGUUJdFVk3CYLsSKALx7F790pEUEZFm31sJNRoOGGYHGegidpAkMrvRaMYeUAf+\n' +
+  '1Oai4nbVXuaizCn/Jd8C4i92MdXrRGSvnLHtohZTAUYbcXECmtdlQLLONWpUY3IuTtZ6pQ0I+zZc\n' +
+  'cU8cZNPGnu93XYUnCuWsJS6/A9R1mmt6Krl+in8FsUZLbEBaKDRj31wAgjILtpEtaHDNK5ofxuuR\n' +
+  'Hp2OLCLZXUnsdNVUg3/UOoWZdgkskqQ5n3ZQzZZHCgI7yBXEgGtksOShbgQBLliNa7fgsq5Rg61G\n' +
+  'EuZWUwIDAQAB'
 
 const encrypt = new JSEncrypt()
 encrypt.setPublicKey(publicKey)
