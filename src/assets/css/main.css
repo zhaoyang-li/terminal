@@ -167,3 +167,7 @@ a {
   font-size: 18px !important;
   color: #66b1ff !important;
 }
+
+.el-radio__label {
+  font-size: 20px !important;
+}

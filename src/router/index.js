@@ -10,6 +10,7 @@ import PersonInform from '@/views/system/personInform'
 import Collection from '@/views/system/collection'
 import Loan from '@/views/system/loan'
 import UnitInform from '@/views/system/unitInform'
+import Complaint from '@/views/system/complaint'
 
 Vue.use(Router)
 
@@ -102,6 +103,14 @@ export default new Router({
       meta: {
         requireAuth: true,
         title: '单位信息'
+      }
+    },
+    {
+      path: '/complaint',
+      component: Complaint,
+      meta: {
+        requireAuth: true,
+        title: '投诉建议'
       }
     }
   ]
