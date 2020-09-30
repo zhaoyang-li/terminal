@@ -42,7 +42,7 @@
       </el-row>
       <div style="margin-right: 100px; float: right;">
         <el-button size="medium" type="primary" class="mr5" @click="goRepayment">还款明细</el-button>
-        <el-button style="margin: 0 80px;" size="medium" type="warning" @click="toSquareReceiptPdf" :loading="buttonLoading">打印结清证明</el-button>
+        <el-button style="margin: 0 80px 0 90px;" size="medium" type="warning" @click="toSquareReceiptPdf" :loading="buttonLoading">打印结清证明</el-button>
         <el-button size="medium" type="danger" class="mr5" @click="toPlan">还款计划</el-button>
       </div>
     </div>

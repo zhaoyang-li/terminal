@@ -26,8 +26,8 @@
       </el-row>
       <div style="margin-right: 100px; float: right;">
         <el-button size="medium" type="primary" class="mr5" @click="detailDialog = true">详细信息</el-button>
-        <el-button style="margin: 0 80px;" size="medium" type="warning">职工信息</el-button>
-        <el-button size="medium" type="danger" class="mr5">业务明细</el-button>
+        <el-button style="margin: 0 80px 0 90px;" size="medium" type="warning" @click="getStaff">职工信息</el-button>
+        <el-button size="medium" type="danger" class="mr5" @click="getBusiness">业务明细</el-button>
       </div>
     </div>
     <div class="login-footer">
@@ -118,6 +118,68 @@
         <el-button style="margin-left: 20px;" @click="detailDialog = false">关闭</el-button>
       </span>
     </el-dialog>
+    <!-- 职工列表 -->
+    <el-dialog title="职工列表" width="1100px" :visible.sync="staffDialog" :close-on-click-modal="false">
+      <el-table class="scrollbar" :data="staffData" border v-loading="staffLoading" height="350">
+        <el-table-column prop="XingMing" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="GRZH" width="130" label="个人账号" align="center"></el-table-column>
+        <el-table-column prop="ZJHM" width="150" label="证件号码" align="center"></el-table-column>
+        <el-table-column prop="GRZHZT" label="个人账户状态" align="center"></el-table-column>
+        <el-table-column prop="JZNY" label="缴至年月" align="center"></el-table-column>
+        <el-table-column prop="GRJCJS" label="个人缴存基数" align="center"></el-table-column>
+        <el-table-column prop="GRYJCE" label="个人缴存额" align="center"></el-table-column>
+        <el-table-column prop="DWYJCE" label="单位缴存额" align="center"></el-table-column>
+        <el-table-column prop="GRZHYE" label="个人账户余额" align="center"></el-table-column>
+      </el-table>
+      <div class="pagination">
+        <el-pagination
+          background
+          layout="total, sizes, prev, pager, next"
+          :current-page="searchForm.pageNo"
+          :page-sizes="[30, 50, 100]"
+          :page-size="searchForm.pageSize"
+          :total="pageTotal"
+          @current-change="handlePageChange"
+          @size-change="handleSizeChange"
+        ></el-pagination>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button style="margin-left: 20px;" @click="staffDialog = false">关闭</el-button>
+      </span>
+    </el-dialog>
+    <!-- 业务明细 -->
+    <el-dialog title="业务明细" width="1100px" :visible.sync="businessDialog" :close-on-click-modal="false">
+      <el-form ref="searchForm" :model="searchForm" label-width="90px">
+        <el-form-item label="汇缴年份:" prop="year">
+          <el-date-picker
+            :clearable="false"
+            v-model="searchForm.yearMonth"
+            type="month"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM"
+            @change="getBusinessData"
+          ></el-date-picker>
+        </el-form-item>
+      </el-form>
+      <el-table class="scrollbar" :data="businessData" border v-loading="businessLoading" height="350">
+        <el-table-column type="index" width="50" label="序号"></el-table-column>
+        <el-table-column prop="DWMC" label="单位名称" align="center"></el-table-column>
+        <el-table-column prop="YWMXLX" label="业务明细类型" align="center"></el-table-column>
+        <el-table-column prop="XingMing" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="FSE" label="发生额" align="center"></el-table-column>
+        <el-table-column prop="FSLXE" label="发生利息额" align="center"></el-table-column>
+        <el-table-column prop="FSRS" label="发生人数" align="center"></el-table-column>
+        <el-table-column prop="HBJNY" label="汇补缴年月" align="center"></el-table-column>
+        <el-table-column prop="JZRQ" label="记账日期" align="center"></el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" :loading="buttonLoading" @click="getBusinessDataToPDF">打印单位业务明细</el-button>
+        <el-button style="margin-left: 20px;" @click="businessDialog = false">关闭</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="打印" fullscreen :visible.sync="pdfShow">
+      <PDF :pdfURL="pdf"></PDF>
+    </el-dialog>
   </div>
 </template>
 
@@ -125,14 +187,15 @@
   import DateTime from "../../components/dateTime"
   import IconText from "../../components/iconText"
   import CountDown from "../../components/countDown"
+  import PDF from "../../components/PDF"
   import bus from "../../utils/bus"
-  import {getUnitAcctDetailInfo} from "../../api/api"
+  import {getUnitAcctDetailInfo, getUnitEmployees, getUnitBusiness, getUnitBusinessToPDF} from "../../api/api"
   import {getStore, getDic, dicType, dateFormat, hidePhoneNum, hideIdcard} from "../../utils/mUtils"
 
   export default {
     name: "unitInform",
     components: {
-      DateTime, IconText, CountDown
+      DateTime, IconText, CountDown, PDF
     },
     data() {
       return {
@@ -168,7 +231,28 @@
             STYHDM: ''
           },
           YWWD: ''
-        }
+        },
+        staffDialog: false,
+        staffLoading: false,
+        staffData: [],
+        pageTotal: 0,
+        searchForm: {
+          DWZH: getStore('DWZH'),
+          yearMonth: dateFormat(undefined, 'yyyy-MM'),
+          pageNo: 1,
+          pageSize: 30
+        },
+        pickerOptions: {
+          disabledDate (time) {
+            return time.getTime() > Date.now()
+          }
+        },
+        pdfShow: false,
+        pdf: '',
+        businessDialog: false,
+        businessLoading: false,
+        buttonLoading: false,
+        businessData: []
       }
     },
     created() {
@@ -205,6 +289,61 @@
       })
     },
     methods: {
+      getBusiness() {
+        this.businessDialog = true
+        this.getBusinessData()
+      },
+      getBusinessData() {
+        this.businessLoading = true
+        getUnitBusiness(this.searchForm.yearMonth, res => {
+          this.businessLoading = false
+          if (res.response !== 'error') {
+            this.businessData = res
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      },
+      getBusinessDataToPDF() {
+        this.buttonLoading = true
+        getUnitBusinessToPDF(this.searchForm.yearMonth, res => {
+          this.buttonLoading = false
+          if (res.response !== 'error') {
+            this.pdfShow = true
+            this.pdf = res.Id
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      },
+      getStaff() {
+        this.staffDialog = true
+        this.getData()
+      },
+      getData() {
+        this.staffLoading = true
+        getUnitEmployees(this.searchForm, res => {
+          this.staffLoading = false
+          if (res.response !== 'error') {
+            this.pageTotal = res.totalCount
+            res.results.forEach((item, index) => {
+              res.results[index].GRZHZT = getDic(dicType.个人账户状态, item.GRZHZT).name
+              res.results[index].ZJHM = hideIdcard(item.ZJHM)
+            })
+            this.staffData = res.results
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      },
+      handlePageChange (val) {
+        this.$set(this.searchForm, 'pageNo', val)
+        this.getData()
+      },
+      handleSizeChange (size) {
+        this.$set(this.searchForm, 'pageSize', size)
+        this.getData()
+      },
       goPage(url) {
         if (url === -1) {
           this.$router.go(-1)

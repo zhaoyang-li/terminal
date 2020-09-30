@@ -171,3 +171,35 @@ export const getLoanInfoPDF = (DKZH, year, callback) => {
 export const getUnitAcctDetailInfo = (DWZH, callback) => {
   commonGet('/collection/unitAcctsInfo/' + DWZH, '', callback)
 }
+
+/**
+ * 职工列表
+ * parameter object 参数
+ * 包括：
+ * DWZH string 单位账号
+ * XingMing string 姓名
+ * page string 页码
+ * pageSize string 每页的数据条数
+ * 注意: 没有数据一定要等于 undefined
+ */
+export const getUnitEmployees = (parameter, callback) => {
+  let url = '/collection/unitAccts/employee'
+  url += parameter ? dealData(parameter) : ''
+  commonGet(url, '', callback)
+}
+
+/**
+ * 业务明细
+ * parameter 年月 yyyy-MM
+ */
+export const getUnitBusiness = (parameter, callback) => {
+  commonGet('/social/list/unitBusiness/' + parameter, '', callback)
+}
+
+/**
+ * 业务明细PDF
+ * parameter 年月 yyyy-MM
+ */
+export const getUnitBusinessToPDF = (parameter, callback) => {
+  commonGet('/social/pdf/unitBusiness/' + parameter, '', callback)
+}

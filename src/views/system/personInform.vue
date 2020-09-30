@@ -25,7 +25,7 @@
       </el-row>
       <div style="margin-right: 100px; float: right;">
         <el-button size="medium" type="primary" class="mr5" @click="goPage('/collection')">缴存信息</el-button>
-        <el-button style="margin: 0 80px;" size="medium" type="warning" @click="goExtract">提取记录</el-button>
+        <el-button style="margin: 0 80px 0 90px;" size="medium" type="warning" @click="goExtract">提取记录</el-button>
         <el-button :disabled="DKXX.length === 0" size="medium" type="danger" class="mr5" @click="goPage('/loan')">贷款信息</el-button>
       </div>
     </div>
