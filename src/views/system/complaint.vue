@@ -9,42 +9,35 @@
     <div class="container scrollbar" v-loading="loading">
       <div
         style="text-align: center; font-size: 22px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: #8cc5ff solid 1px;">
-        投诉建议
+        留言建议
       </div>
-      <el-row class="inform-row" justify="space-around">
-        <el-col :span="10" :offset="2" style="text-align: center;">建议人员：
-          <el-radio-group v-model="loginType">
-            <el-radio label="GR">个人</el-radio>
-            <el-radio label="DW">单位</el-radio>
-          </el-radio-group>
-        </el-col>
-        <el-col :span="10" style="text-align: center;">业务类型：
-          <el-select v-model="selectGRType" v-if="loginType === 'GR'">
+      <el-form ref="addForm" :model="addForm" :rules="rules" @submit.native.prevent inline class="inform-form">
+        <el-form-item label="名称:">
+          <el-input v-model="addForm.subUserName" class="form-input mr5" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="类型:">
+          <el-select v-model="addForm.type" class="form-input mr5">
             <el-option
-              v-for="(item, index) in complaintType[loginType]"
+              v-for="(item, index) in complaintType"
               :key="index"
               :label="item.name"
-              :value="item.code">
+              :value="item.code"
+            >
             </el-option>
           </el-select>
-          <el-select v-model="selectDWType" v-if="loginType === 'DW'">
-            <el-option
-              v-for="(item, index) in complaintType[loginType]"
-              :key="index"
-              :label="item.name"
-              :value="item.code">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-      <el-row class="inform-row" justify="space-around">
-        <el-col :span="3" :offset="4" style="text-align: center;">&nbsp;建议详情：</el-col>
-        <el-col :span="10">
-          <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="content"></el-input>
-        </el-col>
-      </el-row>
+        </el-form-item>
+        <el-form-item label="手机:">
+          <el-input v-model="addForm.subUserPhone" class="form-input mr5" placeholder="请输入联系方式"></el-input>
+        </el-form-item>
+        <el-form-item label="标题:" prop="title">
+          <el-input v-model="addForm.title" class="form-input mr5" placeholder="请输入标题"></el-input>
+        </el-form-item>
+        <el-form-item label="内容:" prop="content">
+          <el-input type="textarea" :rows="4" v-model="addForm.content" class="form-input mr5" placeholder="请输入内容"></el-input>
+        </el-form-item>
+      </el-form>
       <div style="margin-right: 100px; float: right;">
-        <el-button size="medium" type="primary" class="mr5" @click="goPage('/collection')">提交</el-button>
+        <el-button size="medium" type="primary" class="mr5" @click="submitData">提交</el-button>
       </div>
     </div>
     <div class="login-footer">
@@ -62,6 +55,7 @@
   import CountDown from "../../components/countDown"
   import bus from "../../utils/bus"
   import {getStore} from "../../utils/mUtils"
+  import {submitComplaint} from "../../api/glptApi"
 
   export default {
     name: "complaint",
@@ -73,38 +67,32 @@
         loading: false,
         countDown: false,
         countText: '',
-        loginType: getStore('GRZH') ? 'GR' : 'DW',
-        selectGRType: 'JC',
-        selectDWType: 'KH',
-        complaintType: {
-          GR: [{
-            name: '缴存类',
-            code: 'JC'
-          }, {
-            name: '提取类',
-            code: 'TQ'
-          }, {
-            name: '贷款类',
-            code: 'DK'
-          }, {
-            name: '其他',
-            code: 'QT'
-          }],
-          DW: [{
-            name: '开户',
-            code: 'KH'
-          }, {
-            name: '汇缴',
-            code: 'HJ'
-          }, {
-            name: '调基调比',
-            code: 'TJTB'
-          }, {
-            name: '其他',
-            code: 'QT'
-          }]
+        addForm: {
+          subUserCode: getStore('GRZH') || getStore('DWZH'),
+          subUserIdcard: getStore('ZJHM') || '',
+          subUserName: getStore('GRMC') || getStore('DWMC'),
+          subUserPhone: '',
+          subUserType: getStore('GRZH') ? 'person' : 'unit',
+          title: '',
+          content: '',
+          type: '01'
         },
-        content: ''
+        complaintType: [
+          {
+            code: '01',
+            name: '业务咨询'
+          }, {
+            code: '02',
+            name: '意见建议'
+          }, {
+            code: '03',
+            name: '监督投诉'
+          }
+        ],
+        rules: {
+          title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
+          content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
+        }
       }
     },
     created() {
@@ -126,6 +114,25 @@
           this.$router.push(url)
         }
       },
+      submitData() {
+        this.$refs.addForm.validate(valid => {
+          if (valid) {
+            this.loading = true
+            submitComplaint(this.addForm, res => {
+              this.loading = false
+              const {code, message} = res
+              if (code && code === '0') {
+                this.$message.success('提交成功！')
+                this.$router.go(-1)
+              } else {
+                this.$message.error(message)
+              }
+            })
+          } else {
+            return false
+          }
+        })
+      },
       signOut() {
         window.localStorage.clear()
         this.$router.push('/index')
@@ -133,7 +140,7 @@
     }
   }
 </script>
-<style scoped>
+<style>
   .login-wrap {
     position: relative;
     width: 100%;
@@ -174,8 +181,14 @@
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
   }
 
-  .inform-row {
-    margin: 10px auto 40px auto;
+  .inform-form {
+    margin: 0 150px;
+  }
+  .inform-form .el-form-item__label {
     font-size: 20px;
+  }
+
+  .form-input {
+    width: 450px !important;
   }
 </style>

@@ -11,6 +11,7 @@ import Collection from '@/views/system/collection'
 import Loan from '@/views/system/loan'
 import UnitInform from '@/views/system/unitInform'
 import Complaint from '@/views/system/complaint'
+import Message from '@/views/system/message'
 
 Vue.use(Router)
 
@@ -110,7 +111,15 @@ export default new Router({
       component: Complaint,
       meta: {
         requireAuth: true,
-        title: '投诉建议'
+        title: '留言建议'
+      }
+    },
+    {
+      path: '/message',
+      component: Message,
+      meta: {
+        requireAuth: false,
+        title: '中心动态'
       }
     }
   ]

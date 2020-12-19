@@ -23,10 +23,11 @@
               </div>
             </el-col>
             <el-col :span="16" style="height: 100%; background-color: #fff;">
-              <ul>
-                <li class="message-box" v-for="item in message">
-                  <p style="text-indent: 20px; color: #527d7f;">{{item.content.length < 20 ? item.content : item.content.substr(0, 20) + '...'}}</p>
-                  <p style="text-align: right; font-size: 18px; margin-top: 5px; color: #5f9ea0;">{{item.time}}</p>
+              <div style="color: #527d7f; margin-top: 50%; font-size: 20px;" v-if="message.length === 0">暂无数据</div>
+              <ul v-else>
+                <li class="message-box" v-for="(item, index) in message" :key="index">
+                  <p style="color: #527d7f;">{{item.short}}</p>
+                  <p style="text-align: right; font-size: 18px; margin-top: 10px; color: #5f9ea0;">{{item.publishDate}}</p>
                 </li>
               </ul>
             </el-col>
@@ -53,7 +54,7 @@
             <div @click="goPage('complaint')" class="model-card" style="height: 200px; margin-top: 0; background-color: rgba(92, 75, 187, 0.9);">
               <div class="card-content">
                 <i class="el-icon-message" style="margin-top: 25px;margin-bottom: 10px;"></i>
-                <div class="card-title">投诉建议</div>
+                <div class="card-title">留言建议</div>
               </div>
             </div>
           </el-col>
@@ -469,6 +470,7 @@
 <script>
   import {unitLogins, readlLogin, getDynamicCode} from "../../api/user"
   import {getStore, setStore, updateDic} from "../../utils/mUtils"
+  import {getPublishArticle} from "../../api/glptApi"
   import bus from "../../utils/bus"
   import DateTime from "../../components/dateTime"
   import CountDown from "../../components/countDown"
@@ -524,6 +526,21 @@
       bus.$on('closeCountDown', () => {
         this.countDownWarning = false
       })
+
+      getPublishArticle({
+        client: 'terminal',
+        pageNo: 1,
+        pageSize: 2
+      }, res => {
+        const {code, data} = res
+        if (code && code === '0') {
+          this.message = data.results.map(item => {
+            item.short = item.brief.length < 20 ? ('【' + item.tags + '】' + item.brief) : ('【' + item.tags + '】' + item.brief.substr(0, 20) + '...')
+            return item
+          }).slice(0, 2)
+        }
+      })
+
       window.setInterval(() => {
         this.$router.go(0)
       }, 3600 * 1000)
@@ -703,8 +720,8 @@
   .message-box {
     font-size: 20px;
     text-align: left;
-    margin: 25px 20px 20px 30px;
-    list-style-type: circle;
+    margin: 25px 10px 20px 10px;
+    list-style: none;
   }
   .model-card {
     width: 100%;

@@ -4,12 +4,12 @@ import {Message} from 'element-ui'
 import {judgeObj, handingError, getStore} from '../utils/mUtils'
 import {JSEncrypt} from 'jsencrypt'
 
-let publicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkZbnWeHTj3EnqSSgj+bz8GBY0R9oSJqT\n' +
-  'GlhrNrQY7CmBSJGUUJdFVk3CYLsSKALx7F790pEUEZFm31sJNRoOGGYHGegidpAkMrvRaMYeUAf+\n' +
-  '1Oai4nbVXuaizCn/Jd8C4i92MdXrRGSvnLHtohZTAUYbcXECmtdlQLLONWpUY3IuTtZ6pQ0I+zZc\n' +
-  'cU8cZNPGnu93XYUnCuWsJS6/A9R1mmt6Krl+in8FsUZLbEBaKDRj31wAgjILtpEtaHDNK5ofxuuR\n' +
-  'Hp2OLCLZXUnsdNVUg3/UOoWZdgkskqQ5n3ZQzZZHCgI7yBXEgGtksOShbgQBLliNa7fgsq5Rg61G\n' +
-  'EuZWUwIDAQAB'
+let publicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtf30STNR8Anwkea8zAduw8ezVVxIzzZY\n' +
+  'eDXWh58XL7L3kiMVlRXNJ6F2IszZDcrutkZCWPOQR3k4Q7dwG5YrjY4gSDaDW0iwJ/G5q5WJcfWW\n' +
+  '/A0mWkBXVKMkoHnWKg2DrICp97+X97owDIx8/WEUEFTKnNRNcSXGjqDHYgOHP+VYM0NTihRipAhG\n' +
+  '9IRySpq0KQxKhRQy1Fu/SluXA8odJw2HrvDwMSwDLPXymzb012b7NWkaX7uyWhFG3VxsLrMDmkOq\n' +
+  'p6V49WnJlHjEFwmXVSyaNdlPXylusF6mUuJuhtt75umZGyqatzpnPrGds3u9fMKLimSKlaKDV1+L\n' +
+  'PYHn1QIDAQAB\n'
 
 const encrypt = new JSEncrypt()
 encrypt.setPublicKey(publicKey)
@@ -138,6 +138,7 @@ const commonDelete = (url, data, callback) => {
 }
 
 export {
+  handle401Error,
   commonGet,
   commonPost,
   commonPut,
