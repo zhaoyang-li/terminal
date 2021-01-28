@@ -3,6 +3,7 @@
     <div class="login-header">
       <img class="imgLogo" src="../../assets/images/logo.png" alt="毕节市住房公积金中心">
       <div class="header-right">
+        <IconText v-if="isLogin" icon="fa fa-sign-out" text="退出" @click="signOut"></IconText>
         <DateTime></DateTime>
       </div>
     </div>
@@ -89,7 +90,12 @@
         </div>
       </el-col>
     </el-row>
-    <el-dialog :title="loginTitle" :visible.sync="loginBox" width="35%" @close="personLogin">
+    <el-dialog :visible.sync="loginBox" width="35%" @close="personLogin">
+      <div slot="title">
+        <span style="cursor: pointer;" :class="{activeClass: readLoginBox}" @click="personLogin">个人登录</span>
+        |
+        <span style="cursor: pointer;" :class="{activeClass: !readLoginBox}" @click="unitLogin">单位登录</span>
+      </div>
       <el-form v-if="!readLoginBox" :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
         <el-form-item prop="dwzh">
           <el-input v-model="param.dwzh" placeholder="请输入单位账号" size="medium">
@@ -128,9 +134,6 @@
         <div class="login-btn">
           <el-button type="primary" :loading="loading" @click="submitForm()">登录</el-button>
         </div>
-        <el-button style="float: right" type="text" size="small" @click="personLogin">
-          个人登录
-        </el-button>
       </el-form>
       <el-form v-if="readLoginBox" label-width="0px" class="ms-content">
         <el-form-item >
@@ -151,9 +154,6 @@
         <div class="login-btn">
           <el-button type="primary" :loading="loading" @click="submitReadForm()">登录</el-button>
         </div>
-        <el-button style="float: right" type="text" size="small" @click="unitLogin">
-          单位登录
-        </el-button>
       </el-form>
     </el-dialog>
     <el-dialog class="noHeader" :visible.sync="loginVisible" :close-on-click-modal="false" fullscreen
@@ -474,13 +474,15 @@
   import bus from "../../utils/bus"
   import DateTime from "../../components/dateTime"
   import CountDown from "../../components/countDown"
+  import IconText from "../../components/iconText"
   export default {
     name: "index",
     components: {
-      DateTime, CountDown
+      DateTime, CountDown, IconText
     },
     data() {
       return {
+        isLogin: false,
         message: [
           {
             content: '毕节市住房公积金管理中心关于调整毕节市2020年度住房公积金月缴存额上、下限标准的通知',
@@ -546,6 +548,7 @@
       }, 3600 * 1000)
     },
     mounted() {
+      this.isLogin = getStore('token')
       this.personLogin()
     },
     methods: {
@@ -609,6 +612,7 @@
               setStore('GRZH', res.userInfo.grzh)
               setStore('ZJHM', res.userInfo.zjhm)
               updateDic()
+              this.isLogin = getStore('token')
               this.$message.success('登录成功！请操作完成后退出登录，以免信息泄露！')
               if (this.tempComplaint !== '') {
                 this.$router.push(this.tempComplaint)
@@ -639,6 +643,7 @@
                 setStore('DWZH', res.userInfo.dwzh)
                 setStore('DWMC', res.userInfo.dwmc)
                 updateDic()
+                this.isLogin = getStore('token')
                 this.$message.success('登录成功！请操作完成后退出登录，以免信息泄露！')
                 if (this.tempComplaint !== '') {
                   this.$router.push(this.tempComplaint)
@@ -682,6 +687,13 @@
         setTimeout(() => {
           this.setTime()
         }, 1000)
+      },
+
+      signOut() {
+        window.localStorage.clear()
+        this.$message.success('已退出系统！')
+        this.isLogin = getStore('token')
+        this.$router.push('/index')
       }
     }
   }
@@ -711,7 +723,7 @@
   }
   .header-right {
     float: right;
-    width: 150px;
+    width: 350px;
     padding-right: 50px;
   }
   .model-box {
@@ -763,5 +775,9 @@
   .agreement-file {
     color: #20a0ff;
     cursor: pointer;
+  }
+
+  .activeClass {
+    color: #20a0ff;
   }
 </style>
