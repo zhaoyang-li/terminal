@@ -96,7 +96,6 @@
         pageTotal: 0,
         tableData: [],
         detailForm: {
-          userCode: '',
           createdAt: '',
           title: '',
           brief: '',
