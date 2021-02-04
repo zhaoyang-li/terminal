@@ -75,17 +75,17 @@
           subUserType: getStore('GRZH') ? 'person' : 'unit',
           title: '',
           content: '',
-          type: '01'
+          type: '1'
         },
         complaintType: [
           {
-            code: '01',
+            code: '1',
             name: '业务咨询'
           }, {
-            code: '02',
+            code: '2',
             name: '意见建议'
           }, {
-            code: '03',
+            code: '3',
             name: '监督投诉'
           }
         ],

@@ -4,7 +4,7 @@
 const URL = {
   development: {
     baseUrl: 'https://apitest.bjzfgjj.gov.cn/outer/exchange',
-    platformUrl: 'http://172.16.10.152:8070'
+    platformUrl: 'http://172.16.10.87:8070'
   },
   test: {
     baseUrl: 'https://apitest.bjzfgjj.gov.cn/outer/exchange',
