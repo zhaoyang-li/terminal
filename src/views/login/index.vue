@@ -159,26 +159,26 @@
     <el-dialog class="noHeader" :visible.sync="loginVisible" :close-on-click-modal="false" fullscreen
                :show-close="false" center>
       <div>
-        <p style="margin:0pt; orphans:0; text-align:center; widows:0"><span style="font-family:黑体; font-size:22pt">毕节市住房公积金大数据综合云平台注册登陆协议</span>
+        <p style="margin:0pt; orphans:0; text-align:center; widows:0"><span style="font-family:黑体; font-size:22pt">毕节市住房公积金管理中心综合服务平台注册登陆协议</span>
         </p>
         <h5
           style="font-size:13.5pt; line-height:157%; margin:15pt 0pt 0pt; orphans:0; page-break-after:avoid; page-break-inside:avoid; text-align:justify; widows:0">
           <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">一、【目的意义】</span></h5>
-        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">为保证网上公积金业务服务用户信息的真实性、合法性和有效性，自然人、法人用户注册、验证应采用实名制。统一用户注册和验证是开展互联网+公积金业务服务、建立行政机关和行政相对人线上服务法律关系的前提，是今后全国公积金业务服务实现网上“一地注册，各地互认”的基础。在您成为毕节市住房公积金大数据综合云平台实名注册用户（简称“注册用户”）之前，请</span><span
+        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">为保证网上公积金业务服务用户信息的真实性、合法性和有效性，缴存人应采用实名制。在您成为毕节市住房公积金管理中心综合服务平台实名注册用户（简称“注册用户”）之前，请</span><span
           style="font-family:微软雅黑; font-size:10.5pt">确认您</span><span style="font-family:微软雅黑; font-size:10.5pt">已充分阅读、理解并接受本协议的全部内容，并在登陆使用的过程中同意遵循本协议之所有约定。</span>
         </p><h5
         style="font-size:13.5pt; line-height:157%; margin:15pt 0pt 0pt; orphans:0; page-break-after:avoid; page-break-inside:avoid; text-align:justify; widows:0">
         <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">二、【协议适用主体范围】</span></h5>
-        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">公积金业务服务门户的运营管理权归毕节市住房公积金管理中心所有。本协议是您和毕节市住房公积金管理中心，明确双方通过毕节市住房公积金综合服务平台网上办事大厅办理公积金业务服务事项过程中的权利义务所订立的协议。订立本协议的用户，应当是具备完全民事权利能力和完全民事行为能力的自然人。</span>
+        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">公积金业务服务渠道的运营管理权归毕节市住房公积金管理中心所有。本协议是您和毕节市住房公积金管理中心，明确双方通过毕节市住房公积金综合服务平台各个渠道办理公积金业务服务事项过程中的权利义务所订立的协议。订立本协议的用户，应当是具备完全民事权利能力和完全民事行为能力的自然人。</span>
         </p><h5
         style="font-size:13.5pt; line-height:157%; margin:15pt 0pt 0pt; orphans:0; page-break-after:avoid; page-break-inside:avoid; text-align:justify; widows:0">
         <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">三、【服务内容】</span></h5>
-        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">注册用户能够登陆使用毕节市住房公积金大数据综合云平台，访问互联网公积金业务服务门户网站、检索静态信息、进行在线咨询、申办公积金业务服务事项，可在专属用户空间查询所办事项的过程信息和历史信息，储存信息资料，并自行维护用户空间信息。</span>
+        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">注册用户能够登陆使用毕节市住房公积金综合服务平台各个渠道，包括网上办事大厅、微信小程序、支付宝小程序、手机APP等，一个渠道注册，各个渠道通用。注册用户可访问综合服务平台各个渠道检索静态信息、进行在线咨询、申办公积金业务服务事项，可查询所办事项的过程信息和历史信息，储存信息资料，并自行维护用户信息。</span>
         </p><h5
         style="font-size:13.5pt; line-height:157%; margin:15pt 0pt 0pt; orphans:0; page-break-after:avoid; page-break-inside:avoid; text-align:justify; widows:0">
         <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">四、【用户承诺与授权】</span></h5>
         <p style="margin:3.75pt 0pt 0pt"><span
-          style="font-family:微软雅黑; font-size:10.5pt">用户在公积金业务服务门户进行注册和使用本公积金业务服务平台时承诺和确认：</span></p>
+          style="font-family:微软雅黑; font-size:10.5pt">用户在公积金综合服务平台进行注册和使用相关公积金服务时承诺和确认：</span></p>
         <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">（1）提供及时、详尽及准确的个人资料；</span></p>
         <p style="margin:3.75pt 0pt 0pt"><span
           style="font-family:微软雅黑; font-size:10.5pt">（2）运用本人手机号码、身份证号、公积金</span><span
@@ -190,12 +190,6 @@
         </p>
         <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">（5）在提请公积金业务服务事项办理过程中，按服务内容要求提供真实、准确的要件材料，并及时对上传本平台的要件材料做好更新维护；</span>
         </p>
-        <p style="margin:3.75pt 0pt 0pt"><span
-          style="font-family:微软雅黑; font-size:10.5pt">（6）自愿选择物流快递、网上支付等第三</span><span
-          style="font-family:微软雅黑; font-size:10.5pt">方服务</span><span style="font-family:微软雅黑; font-size:10.5pt">时，及时提供真实姓名、联系地址、联系方式、账户等相关个人信息；</span>
-        </p>
-        <p style="margin:3.75pt 0pt 0pt"><span
-          style="font-family:微软雅黑; font-size:10.5pt">（7）不存放与公积金业务服务申办无关的信息内容。</span></p>
         <h5
           style="font-size:13.5pt; line-height:157%; margin:15pt 0pt 0pt; orphans:0; page-break-after:avoid; page-break-inside:avoid; text-align:justify; widows:0">
           <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">五、【用户信息保障】</span></h5>
@@ -215,16 +209,11 @@
         <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">注册用户应严格遵守国家有关法律法规，有违反法律法规行为的，毕节市住房公积金管理中心有权终止为用户提供服务，并保留追责的权利。</span>
         </p><h5
         style="font-size:13.5pt; line-height:157%; margin:15pt 0pt 0pt; orphans:0; page-break-after:avoid; page-break-inside:avoid; text-align:justify; widows:0">
-        <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">八、【结束服务】</span></h5>
-        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">注册用户若反对任何服务条款或对后来的条款修改有异议，或不需要接受相关公积金业务服务，可自行注销</span><span
-          style="font-family:微软雅黑; font-size:10.5pt">帐号</span><span style="font-family:微软雅黑; font-size:10.5pt">，如之后需要使用相关服务，需重新进行注册认证。</span>
+        <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">八、【注意事项】</span></h5>
+        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">毕节市住房公积金管理中心将加强网络安全和风险防控，因技术原因和网络中断等因素，可能会造成注册用户的实时操作无效和暂停，如有疑问请致电0857-12329。</span>
         </p><h5
         style="font-size:13.5pt; line-height:157%; margin:15pt 0pt 0pt; orphans:0; page-break-after:avoid; page-break-inside:avoid; text-align:justify; widows:0">
-        <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">九、【注意事项】</span></h5>
-        <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">毕节市住房公积金管理中心将加强网络安全和风险防控，因技术原因和网络中断等因素，可能会造成注册用户的实时操作无效和暂停，请注意备份相关资料。</span>
-        </p><h5
-        style="font-size:13.5pt; line-height:157%; margin:15pt 0pt 0pt; orphans:0; page-break-after:avoid; page-break-inside:avoid; text-align:justify; widows:0">
-        <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">十、【其他规定】</span></h5>
+        <span style="font-family:微软雅黑; font-size:13.5pt; font-weight:bold">九、【其他规定】</span></h5>
         <p style="margin:3.75pt 0pt 0pt"><span style="font-family:微软雅黑; font-size:10.5pt">毕节市住房公积金管理中心依照</span><span
           style="font-family:微软雅黑; font-size:10.5pt">本服务</span><span style="font-family:微软雅黑; font-size:10.5pt">条款及后期依法发布的补充规则，均为本协议不可分割的组成部分，原则上不再重复另行签约。</span>
         </p>
